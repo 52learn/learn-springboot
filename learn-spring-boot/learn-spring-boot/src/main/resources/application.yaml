@@ -5,3 +5,6 @@ sms:
   tencent:
     enabled: false
 
+spring:
+  profiles:
+    active: dev

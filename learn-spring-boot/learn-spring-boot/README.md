@@ -13,3 +13,20 @@ com.example.learn.springboot.autoconfigure.SmsProviderAutoConfiguration
 
 5. Config application.yaml 
 
+## Use @Profile
+1. 设置spring.profiles.active
+- By startup with parameter  
+```
+java -jar xxxx.jar  --spring.profiles.active=dev
+```
+- Config in application.yaml 
+```
+spring:
+  profiles:
+    active: dev
+```
+2. 使用@Profile
+com.example.learn.springboot.profile.DevAutoConfiguration  
+com.example.learn.springboot.profile.UatAutoConfiguration  
+
+

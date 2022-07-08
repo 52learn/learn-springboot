@@ -3,6 +3,7 @@ package com.example.learn.springboot.main;
 import com.example.learn.springboot.sms.SmsProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,8 +20,17 @@ public class LearnSpringBootApplication implements CommandLineRunner {
 	@Autowired(required = false)
 	private List<SmsProvider> smsProviders;
 
+	@Autowired(required = false)
+	private String env;
+
+	@Value("${spring.profiles.active:}")
+	private String activeProfile;
+
 	@Override
 	public void run(String... args) throws Exception {
-		log.info(" smsProviders list: {}",smsProviders);
+		log.info("---------- smsProviders list: {}",smsProviders);
+		log.info("---------- env  is ：{}",env);
+		log.info("----------  activeProfile：{}",activeProfile);
 	}
+
 }
