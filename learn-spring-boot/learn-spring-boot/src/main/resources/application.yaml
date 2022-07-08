@@ -1,0 +1,7 @@
+
+sms:
+  aliyun:
+    enabled: true
+  tencent:
+    enabled: false
+
