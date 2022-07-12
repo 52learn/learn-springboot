@@ -25,8 +25,37 @@ spring:
   profiles:
     active: dev
 ```
-2. 使用@Profile
+2. Use @Profile
 com.example.learn.springboot.profile.DevAutoConfiguration  
 com.example.learn.springboot.profile.UatAutoConfiguration  
+
+## How to apply Factory Pattern with spring.factories
+
+1. define storage factories 
+- com.example.learn.springboot.storage.factory.StorageFactory
+- com.example.learn.springboot.storage.LocalFileStorage.Factory
+- com.example.learn.springboot.storage.AliyunStorage.Factory
+- com.example.learn.springboot.storage.factory.DelegatingStorageFactory
+
+2. define Storage abstract class and concrete class
+- com.example.learn.springboot.storage.Storage
+- com.example.learn.springboot.storage.AliyunStorage
+- com.example.learn.springboot.storage.LocalFileStorage
+
+3. define ApplicationListener class
+com.example.learn.springboot.storage.StorageApplicationListener
+
+4. config spring.factories:
+```
+# Application Listeners
+org.springframework.context.ApplicationListener=\
+com.example.learn.springboot.storage.StorageApplicationListener
+
+com.example.learn.springboot.storage.factory.StorageFactory=\
+com.example.learn.springboot.storage.AliyunStorage.Factory,\
+com.example.learn.springboot.storage.LocalFileStorage.Factory\
+```
+
+
 
 

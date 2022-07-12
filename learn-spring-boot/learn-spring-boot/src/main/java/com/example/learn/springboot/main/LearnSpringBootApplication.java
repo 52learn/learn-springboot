@@ -1,5 +1,6 @@
 package com.example.learn.springboot.main;
 
+import com.example.learn.springboot.storage.Storage;
 import com.example.learn.springboot.sms.SmsProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +27,18 @@ public class LearnSpringBootApplication implements CommandLineRunner {
 	@Value("${spring.profiles.active:}")
 	private String activeProfile;
 
+	@Autowired
+	private Storage storage;
+
 	@Override
 	public void run(String... args) throws Exception {
 		log.info("---------- smsProviders list: {}",smsProviders);
 		log.info("---------- env  is ：{}",env);
 		log.info("----------  activeProfile：{}",activeProfile);
+		//Storage storage = Storage.get(this.getClass().getClassLoader());
+		storage.save("test content");
 	}
+
+
 
 }
