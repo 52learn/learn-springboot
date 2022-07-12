@@ -1,7 +1,7 @@
 package com.example.learn.springboot.main;
 
-import com.example.learn.springboot.storage.Storage;
 import com.example.learn.springboot.sms.SmsProvider;
+import com.example.learn.springboot.storage.Storage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,7 +38,6 @@ public class LearnSpringBootApplication implements CommandLineRunner {
 		//Storage storage = Storage.get(this.getClass().getClassLoader());
 		storage.save("test content");
 	}
-
 
 
 }

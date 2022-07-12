@@ -55,7 +55,9 @@ com.example.learn.springboot.storage.factory.StorageFactory=\
 com.example.learn.springboot.storage.AliyunStorage.Factory,\
 com.example.learn.springboot.storage.LocalFileStorage.Factory\
 ```
-
+## Use BeanPostProcessor 
+- com.example.learn.springboot.bean.processor.BeanPostProcessorAutoConfiguration
+- com.example.learn.springboot.bean.processor.MyBeanPostProcessor
 
 
 
