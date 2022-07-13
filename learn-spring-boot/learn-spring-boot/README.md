@@ -59,5 +59,8 @@ com.example.learn.springboot.storage.LocalFileStorage.Factory\
 - com.example.learn.springboot.bean.processor.BeanPostProcessorAutoConfiguration
 - com.example.learn.springboot.bean.processor.MyBeanPostProcessor
 
+## @EnableXXX
 
+Reference：  
+@Enable**注解实现原理与实例：https://blog.csdn.net/w47_csdn/article/details/86611237
 
