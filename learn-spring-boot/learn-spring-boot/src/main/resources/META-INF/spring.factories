@@ -2,11 +2,13 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 com.example.learn.springboot.autoconfigure.SmsProviderAutoConfiguration,\
 com.example.learn.springboot.profile.DevAutoConfiguration,\
 com.example.learn.springboot.profile.UatAutoConfiguration,\
-com.example.learn.springboot.bean.processor.BeanPostProcessorAutoConfiguration
+com.example.learn.springboot.bean.processor.BeanPostProcessorAutoConfiguration,\
+com.example.learn.springboot.custom.properties.MyPropertiesAutoConfiguration  
 
 # Application Listeners
 org.springframework.context.ApplicationListener=\
-com.example.learn.springboot.storage.StorageApplicationListener
+com.example.learn.springboot.storage.StorageApplicationListener,\
+com.example.learn.springboot.custom.properties.PropertiesLoadApplicationListener  
 
 com.example.learn.springboot.storage.factory.StorageFactory=\
 com.example.learn.springboot.storage.AliyunStorage.Factory,\
