@@ -1,23 +1,26 @@
 package com.example.learn.springboot.main;
 
 import com.example.learn.springboot.custom.properties.MyProjectProperties;
+import com.example.learn.springboot.enable.*;
 import com.example.learn.springboot.importest.OrderService;
 import com.example.learn.springboot.sms.SmsProvider;
 import com.example.learn.springboot.storage.Storage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
-import com.example.learn.springboot.enable.EnableSomeBeanConfiguration;
+
 import java.util.List;
 
 @Slf4j
 @SpringBootApplication
 @EnableCaching
 @EnableSomeBeanConfiguration
+@EnableConfigurationSelector(configurations = {Module1Configuration.class, Module2Configuration.class})
 public class LearnSpringBootApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {
@@ -45,7 +48,13 @@ public class LearnSpringBootApplication implements CommandLineRunner {
 	private OrderService orderService;
 
 	@Autowired
+	@Qualifier("bean1")
 	private String bean1;
+
+	@Autowired
+	private String moudle1Name;
+	@Autowired
+	private String moudle2Name;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -58,6 +67,8 @@ public class LearnSpringBootApplication implements CommandLineRunner {
 		log.info("load properties from classpath:META-INF/my.properties, myProjectProperties:{} ",myProjectProperties);
 		log.info("orderService.makeOrder() :{}",orderService.makeOrder());
 		log.info("@EnableSomeBeanConfiguration test.... :{}",bean1);
+		log.info("@EnableConfigurationSelector test.... :{},{}",moudle1Name,moudle2Name);
+
 	}
 
 
