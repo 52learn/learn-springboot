@@ -1,9 +1,10 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 com.example.learn.springboot.autoconfigure.SmsProviderAutoConfiguration,\
-com.example.learn.springboot.profile.DevAutoConfiguration,\
-com.example.learn.springboot.profile.UatAutoConfiguration,\
-com.example.learn.springboot.bean.processor.BeanPostProcessorAutoConfiguration,\
-com.example.learn.springboot.custom.properties.MyPropertiesAutoConfiguration  
+com.example.learn.springboot.profile.autoconfigure.DevAutoConfiguration,\
+com.example.learn.springboot.profile.autoconfigure.UatAutoConfiguration,\
+com.example.learn.springboot.bean.processor.autoconfigure.BeanPostProcessorAutoConfiguration,\
+com.example.learn.springboot.custom.properties.autoconfigure.MyPropertiesAutoConfiguration,\
+com.example.learn.springboot.importest.autoconfigure.ImportAutoConfiguration   
 
 # Application Listeners
 org.springframework.context.ApplicationListener=\

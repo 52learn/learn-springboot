@@ -26,8 +26,8 @@ spring:
     active: dev
 ```
 2. Use @Profile
-com.example.learn.springboot.profile.DevAutoConfiguration  
-com.example.learn.springboot.profile.UatAutoConfiguration  
+com.example.learn.springboot.profile.autoconfigure.DevAutoConfiguration  
+com.example.learn.springboot.profile.autoconfigure.UatAutoConfiguration  
 
 ## How to apply Factory Pattern with spring.factories
 
@@ -56,7 +56,7 @@ com.example.learn.springboot.storage.AliyunStorage.Factory,\
 com.example.learn.springboot.storage.LocalFileStorage.Factory\
 ```
 ## Use BeanPostProcessor 
-- com.example.learn.springboot.bean.processor.BeanPostProcessorAutoConfiguration
+- com.example.learn.springboot.bean.processor.autoconfigure.BeanPostProcessorAutoConfiguration
 - com.example.learn.springboot.bean.processor.MyBeanPostProcessor
 
 ## @EnableXXX

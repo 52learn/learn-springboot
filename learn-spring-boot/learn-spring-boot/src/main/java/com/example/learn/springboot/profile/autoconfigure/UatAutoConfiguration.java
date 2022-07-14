@@ -1,4 +1,4 @@
-package com.example.learn.springboot.profile;
+package com.example.learn.springboot.profile.autoconfigure;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
