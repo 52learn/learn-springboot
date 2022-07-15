@@ -60,7 +60,14 @@ com.example.learn.springboot.storage.LocalFileStorage.Factory\
 - com.example.learn.springboot.bean.processor.MyBeanPostProcessor
 
 ## @EnableXXX
+- @EnableSomeBeanConfiguration
+- @EnableConfigurationSelector
+- @EnableSomeBeanRegistrar
 
 Reference：  
-@Enable**注解实现原理与实例：https://blog.csdn.net/w47_csdn/article/details/86611237
+@Enable**注解实现原理与实例  
+https://blog.csdn.net/w47_csdn/article/details/86611237  
+
+动态注册bean，Spring官方套路：使用ImportBeanDefinitionRegistrar  
+https://zhuanlan.zhihu.com/p/30123517
 

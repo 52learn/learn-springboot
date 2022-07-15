@@ -21,6 +21,7 @@ import java.util.List;
 @EnableCaching
 @EnableSomeBeanConfiguration
 @EnableConfigurationSelector(configurations = {Module1Configuration.class, Module2Configuration.class})
+@EnableSomeBeanRegistrar
 public class LearnSpringBootApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {
@@ -56,6 +57,9 @@ public class LearnSpringBootApplication implements CommandLineRunner {
 	@Autowired
 	private String moudle2Name;
 
+	@Autowired
+	private Module1Service module1Service;
+
 	@Override
 	public void run(String... args) throws Exception {
 		log.info("---------- smsProviders list: {}",smsProviders);
@@ -68,7 +72,7 @@ public class LearnSpringBootApplication implements CommandLineRunner {
 		log.info("orderService.makeOrder() :{}",orderService.makeOrder());
 		log.info("@EnableSomeBeanConfiguration test.... :{}",bean1);
 		log.info("@EnableConfigurationSelector test.... :{},{}",moudle1Name,moudle2Name);
-
+		log.info("@EnableSomeBeanRegistrar test.... module1Service :{}",module1Service);
 	}
 
 
