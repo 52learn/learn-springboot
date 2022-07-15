@@ -9,11 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-public class CongfigurationSelector implements ImportSelector {
+public class CongfigurationImportSelector implements ImportSelector {
     @Override
     public String[] selectImports(AnnotationMetadata importingClassMetadata) {
         //return new String[]{};
-        AnnotationAttributes attributes = AnnotationAttributes.fromMap(importingClassMetadata.getAnnotationAttributes(EnableConfigurationSelector.class.getName(), false));
+        AnnotationAttributes attributes = AnnotationAttributes.fromMap(importingClassMetadata.getAnnotationAttributes(
+            EnableConfigurationImportSelector.class.getName(), false));
         Class[] configurations = attributes.getClassArray("configurations");
         List<String> classNames = new ArrayList<>();
         for(Class configurationClass:configurations){

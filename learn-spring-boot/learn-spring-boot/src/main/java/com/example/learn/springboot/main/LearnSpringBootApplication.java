@@ -20,7 +20,7 @@ import java.util.List;
 @SpringBootApplication
 @EnableCaching
 @EnableSomeBeanConfiguration
-@EnableConfigurationSelector(configurations = {Module1Configuration.class, Module2Configuration.class})
+@EnableConfigurationImportSelector(configurations = {Module1Configuration.class, Module2Configuration.class})
 @EnableSomeBeanRegistrar
 public class LearnSpringBootApplication implements CommandLineRunner {
 
