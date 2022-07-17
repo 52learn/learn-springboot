@@ -5,12 +5,14 @@ com.example.learn.springboot.profile.autoconfigure.UatAutoConfiguration,\
 com.example.learn.springboot.bean.processor.autoconfigure.BeanPostProcessorAutoConfiguration,\
 com.example.learn.springboot.custom.properties.autoconfigure.MyPropertiesAutoConfiguration,\
 com.example.learn.springboot.importest.autoconfigure.ImportAutoConfiguration,\
-com.example.learn.springboot.diagnostics.DiagnosticsAutoConfiguration     
+com.example.learn.springboot.diagnostics.DiagnosticsAutoConfiguration,\
+com.example.learn.springboot.yaml.load.YamlLoadAutoConfiguration   
 
 # Application Listeners
 org.springframework.context.ApplicationListener=\
 com.example.learn.springboot.storage.StorageApplicationListener,\
-com.example.learn.springboot.custom.properties.PropertiesLoadApplicationListener  
+com.example.learn.springboot.custom.properties.PropertiesLoadApplicationListener,\
+com.example.learn.springboot.yaml.load.YamlLoadApplicationListener    
 
 com.example.learn.springboot.storage.factory.StorageFactory=\
 com.example.learn.springboot.storage.AliyunStorage.Factory,\

@@ -111,7 +111,12 @@ logging:
     org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter: debug
 ```
 
+## Directly Loading YAML
+- com.example.learn.springboot.yaml.load.YamlLoadAutoConfiguration.yamlMap
+- com.example.learn.springboot.yaml.load.YamlLoadAutoConfiguration.yamlProperties
 
+## Directly Loading YAML as property source 
+- com.example.learn.springboot.yaml.load.YamlLoadApplicationListener
 
 ## Learn knowledge
 ### 获取类名中泛型类型
@@ -138,5 +143,16 @@ protected final <E extends Throwable> E findCause(Throwable failure, Class<E> ty
         failure = failure.getCause();
     }
     return null;
+}
+```
+
+### spring boot default search config properties/yaml locations 
+org.springframework.boot.context.config.ConfigDataEnvironment.DEFAULT_SEARCH_LOCATIONS
+```
+static {
+    List<ConfigDataLocation> locations = new ArrayList<>();
+    locations.add(ConfigDataLocation.of("optional:classpath:/;optional:classpath:/config/"));
+    locations.add(ConfigDataLocation.of("optional:file:./;optional:file:./config/;optional:file:./config/*/"));
+    DEFAULT_SEARCH_LOCATIONS = locations.toArray(new ConfigDataLocation[0]);
 }
 ```

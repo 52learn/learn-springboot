@@ -9,12 +9,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.config.YamlMapFactoryBean;
+import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 @Slf4j
 @SpringBootApplication
@@ -60,6 +64,17 @@ public class LearnSpringBootApplication implements CommandLineRunner {
 	@Autowired
 	private Module1Service module1Service;
 
+	@Autowired
+	YamlMapFactoryBean yamlMapFactoryBean;
+
+	@Autowired
+	YamlPropertiesFactoryBean yamlPropertiesFactoryBean;
+
+	@Value("${bicycle.brand:}")
+	String bicycleBrand;
+	@Value("${car.brand:}")
+	String carBrand;
+
 	@Override
 	public void run(String... args) throws Exception {
 		log.info("---------- smsProviders list: {}",smsProviders);
@@ -73,6 +88,15 @@ public class LearnSpringBootApplication implements CommandLineRunner {
 		log.info("@EnableSomeBeanConfiguration test.... :{}",bean1);
 		log.info("@EnableConfigurationSelector test.... :{},{}",moudle1Name,moudle2Name);
 		log.info("@EnableSomeBeanRegistrar test.... module1Service :{}",module1Service);
+
+		Map<String, Object> yamlMap = yamlMapFactoryBean.getObject();
+		log.info("Direct load yaml file to map: {}",yamlMap);
+
+		Properties yamlProperties = yamlPropertiesFactoryBean.getObject();
+		log.info("Direct load yaml file to properties: {}",yamlProperties);
+		log.info("bicycle.brand ：{}",bicycleBrand);
+		log.info("car.brand ：{}",carBrand);
+
 	}
 
 

@@ -3,9 +3,9 @@ package com.example.learn.springboot.diagnostics;
 import org.springframework.boot.diagnostics.AbstractFailureAnalyzer;
 import org.springframework.boot.diagnostics.FailureAnalysis;
 
-public class ProjectConstraintViolationFailureAnalyzer extends AbstractFailureAnalyzer {
+public class ProjectConstraintViolationFailureAnalyzer extends AbstractFailureAnalyzer<ProjectConstraintViolationException> {
     @Override
-    protected FailureAnalysis analyze(Throwable rootFailure, Throwable cause) {
+    protected FailureAnalysis analyze(Throwable rootFailure, ProjectConstraintViolationException cause) {
         StringBuilder description = new StringBuilder("Project Constraint : ");
         description.append("1. classpath:/META-INF/my.properties");
         String action = "pls make sure resource [classpath:/META-INF/my.properties] exist ";
