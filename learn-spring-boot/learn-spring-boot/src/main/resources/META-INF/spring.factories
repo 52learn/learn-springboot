@@ -4,7 +4,8 @@ com.example.learn.springboot.profile.autoconfigure.DevAutoConfiguration,\
 com.example.learn.springboot.profile.autoconfigure.UatAutoConfiguration,\
 com.example.learn.springboot.bean.processor.autoconfigure.BeanPostProcessorAutoConfiguration,\
 com.example.learn.springboot.custom.properties.autoconfigure.MyPropertiesAutoConfiguration,\
-com.example.learn.springboot.importest.autoconfigure.ImportAutoConfiguration   
+com.example.learn.springboot.importest.autoconfigure.ImportAutoConfiguration,\
+com.example.learn.springboot.diagnostics.DiagnosticsAutoConfiguration     
 
 # Application Listeners
 org.springframework.context.ApplicationListener=\
@@ -14,3 +15,16 @@ com.example.learn.springboot.custom.properties.PropertiesLoadApplicationListener
 com.example.learn.springboot.storage.factory.StorageFactory=\
 com.example.learn.springboot.storage.AliyunStorage.Factory,\
 com.example.learn.springboot.storage.LocalFileStorage.Factory\
+
+
+#org.springframework.boot.SpringBootExceptionReporter=\
+#com.example.learn.springboot.diagnostics.MyFailureAnalyzers
+
+# Failure Analysis Reporters
+#org.springframework.boot.diagnostics.FailureAnalysisReporter=\
+#com.example.learn.springboot.diagnostics.MyLoggingFailureAnalysisReporter
+
+# Failure Analyzers
+org.springframework.boot.diagnostics.FailureAnalyzer=\
+com.example.learn.springboot.diagnostics.ProjectConstraintViolationFailureAnalyzer
+

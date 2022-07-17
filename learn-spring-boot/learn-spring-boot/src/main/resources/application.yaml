@@ -1,4 +1,3 @@
-
 sms:
   aliyun:
     enabled: true
@@ -8,3 +7,7 @@ sms:
 spring:
   profiles:
     active: dev
+
+logging:
+  level:
+    org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter: debug

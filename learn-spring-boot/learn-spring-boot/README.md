@@ -71,3 +71,72 @@ https://blog.csdn.net/w47_csdn/article/details/86611237
 动态注册bean，Spring官方套路：使用ImportBeanDefinitionRegistrar  
 https://zhuanlan.zhihu.com/p/30123517
 
+## Custom Diagnostics Exception
+once app startup ,it should check the app's construct, if violation the project constraint , then throw ProjectConstraintViolationException ,  startup fails 
+
+- com.example.learn.springboot.diagnostics.DiagnosticsAutoConfiguration
+- com.example.learn.springboot.diagnostics.ProjectConstraintViolationApplicationRunner
+- com.example.learn.springboot.diagnostics.ProjectConstraintViolationException
+- com.example.learn.springboot.diagnostics.ProjectConstraintViolationFailureAnalyzer
+- spring.factories
+```
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.example.learn.springboot.diagnostics.DiagnosticsAutoConfiguration 
+# Failure Analyzers
+org.springframework.boot.diagnostics.FailureAnalyzer=\
+com.example.learn.springboot.diagnostics.ProjectConstraintViolationFailureAnalyzer
+```
+
+## Custom FailureAnalyzer
+- com.example.learn.springboot.diagnostics.MyFailureAnalyzers
+- com.example.learn.springboot.diagnostics.MyLoggingFailureAnalysisReporter
+- spring.factories
+```
+org.springframework.boot.SpringBootExceptionReporter=\
+com.example.learn.springboot.diagnostics.MyFailureAnalyzers  
+
+# Failure Analysis Reporters
+org.springframework.boot.diagnostics.FailureAnalysisReporter=\
+com.example.learn.springboot.diagnostics.MyLoggingFailureAnalysisReporter
+```
+
+## change  spring-jcl log level in appliction.yaml
+spring boot framework use spring-jcl for logging.  how to change the log level?
+
+eg : change the  org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter.logger level to log the debug info.
+application.yaml :
+```
+logging:
+  level:
+    org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter: debug
+```
+
+
+
+## Learn knowledge
+### 获取类名中泛型类型
+org.springframework.boot.diagnostics.AbstractFailureAnalyzer.getCauseType
+```
+/**
+ * Return the cause type being handled by the analyzer. By default the class generic
+ * is used.
+ * @return the cause type
+ */
+@SuppressWarnings("unchecked")
+protected Class<? extends T> getCauseType() {
+    return (Class<? extends T>) ResolvableType.forClass(AbstractFailureAnalyzer.class, getClass()).resolveGeneric();
+}
+```
+### 在Throwable中获取异常Cause
+```
+@SuppressWarnings("unchecked")
+protected final <E extends Throwable> E findCause(Throwable failure, Class<E> type) {
+    while (failure != null) {
+        if (type.isInstance(failure)) {
+            return (E) failure;
+        }
+        failure = failure.getCause();
+    }
+    return null;
+}
+```
