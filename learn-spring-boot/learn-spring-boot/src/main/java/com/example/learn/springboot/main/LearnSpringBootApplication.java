@@ -4,9 +4,11 @@ import com.example.learn.springboot.custom.properties.MyProjectProperties;
 import com.example.learn.springboot.enable.*;
 import com.example.learn.springboot.i18n.I18nMessagePrinter;
 import com.example.learn.springboot.importest.OrderService;
+import com.example.learn.springboot.json.Car;
 import com.example.learn.springboot.properties.CustomerProperties;
 import com.example.learn.springboot.sms.SmsProvider;
 import com.example.learn.springboot.storage.Storage;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,6 +21,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.annotation.EnableCaching;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoField;
+import java.time.temporal.TemporalField;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -85,6 +90,9 @@ public class LearnSpringBootApplication implements CommandLineRunner {
 	@Autowired
 	I18nMessagePrinter i18nMessagePrinter;
 
+	@Autowired
+	ObjectMapper objectMapper;
+
 	@Override
 	public void run(String... args) throws Exception {
 		log.debug("debug info -----");
@@ -111,6 +119,12 @@ public class LearnSpringBootApplication implements CommandLineRunner {
 		log.info("customerProperties : {}",customerProperties);
 
 		i18nMessagePrinter.print();
+		Car car = new Car();
+		car.setBrand("TOYOTA");
+		car.setUsedYears(2);
+		car.setProductionTime(LocalDateTime.now());
+		String carJsonString = objectMapper.writeValueAsString(car);
+		log.info("carJsonString:{}",carJsonString);
 	}
 
 
