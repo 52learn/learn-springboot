@@ -167,6 +167,12 @@ trace|debug=true
 reference  
 https://docs.spring.io/spring-boot/docs/2.7.1/reference/html/features.html#features.logging.console-output
 
+
+## import AutoConfiguration class
+add to :  
+META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports 
+
+
 ## Learn knowledge
 ### 获取类名中泛型类型
 org.springframework.boot.diagnostics.AbstractFailureAnalyzer.getCauseType
