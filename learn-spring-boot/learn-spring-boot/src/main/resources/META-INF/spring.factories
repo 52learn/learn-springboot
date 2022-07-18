@@ -32,3 +32,6 @@ com.example.learn.springboot.storage.LocalFileStorage.Factory\
 org.springframework.boot.diagnostics.FailureAnalyzer=\
 com.example.learn.springboot.diagnostics.ProjectConstraintViolationFailureAnalyzer
 
+org.springframework.context.ApplicationContextInitializer=\
+com.example.learn.springboot.extension.MyApplicationContextInitializer  
+

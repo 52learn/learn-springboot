@@ -217,3 +217,11 @@ static {
 - org.springframework.boot.context.properties.ConfigurationPropertiesBinder.getValidators
 - org.springframework.boot.context.properties.ConfigurationPropertiesJsr303Validator
 - org.springframework.boot.context.properties.bind.validation.ValidationBindHandler.validateAndPush
+
+### Springboot extension
+- com.example.learn.springboot.extension.MyApplicationContextInitializer
+- com.example.learn.springboot.extension.MyBeanDefinitionRegistryPostProcessor
+
+
+reference  
+- Springboot启动扩展点超详细总结，再也不怕面试官问了   https://segmentfault.com/a/1190000023033670     next: BeanDefinitionRegistryPostProcessor
