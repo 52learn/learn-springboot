@@ -129,6 +129,12 @@ curl -H "Content-Type:application/json" -X POST -d '{"userName": "kim"}' http://
 referenece:  
 http://dolszewski.com/spring/custom-validation-annotation-in-spring/ 
 
+## Custom Validator for ConfigurationProperties 
+- com.example.learn.springboot.properties.validator.ReportConfigProperties
+
+referenece:  
+https://www.grabanotherbyte.com/en/spring/2020/08/06/how-to-customize-configuration-properties-validation-in-spring.html
+
 ## Learn knowledge
 ### 获取类名中泛型类型
 org.springframework.boot.diagnostics.AbstractFailureAnalyzer.getCauseType

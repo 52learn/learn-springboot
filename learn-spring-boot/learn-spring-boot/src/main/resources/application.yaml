@@ -18,3 +18,7 @@ customer:
   contract:
     name: tom
     phone: 15824135598
+report:
+  sendByEmail: true
+  emailSubject:
+  recipient:
