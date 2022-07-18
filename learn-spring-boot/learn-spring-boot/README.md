@@ -126,6 +126,8 @@ logging:
 ```
 curl -H "Content-Type:application/json" -X POST -d '{"userName": "kim"}' http://127.0.0.1:8080/regist
 ```
+referenece:  
+http://dolszewski.com/spring/custom-validation-annotation-in-spring/ 
 
 ## Learn knowledge
 ### 获取类名中泛型类型
