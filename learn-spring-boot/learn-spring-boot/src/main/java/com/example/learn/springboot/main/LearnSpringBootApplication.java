@@ -3,6 +3,7 @@ package com.example.learn.springboot.main;
 import com.example.learn.springboot.custom.properties.MyProjectProperties;
 import com.example.learn.springboot.enable.*;
 import com.example.learn.springboot.importest.OrderService;
+import com.example.learn.springboot.properties.CustomerProperties;
 import com.example.learn.springboot.sms.SmsProvider;
 import com.example.learn.springboot.storage.Storage;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.annotation.EnableCaching;
 
 import java.util.List;
@@ -26,6 +28,7 @@ import java.util.Properties;
 @EnableSomeBeanConfiguration
 @EnableConfigurationImportSelector(configurations = {Module1Configuration.class, Module2Configuration.class})
 @EnableSomeBeanRegistrar
+@EnableConfigurationProperties(value = {CustomerProperties.class})
 public class LearnSpringBootApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {
@@ -75,6 +78,9 @@ public class LearnSpringBootApplication implements CommandLineRunner {
 	@Value("${car.brand:}")
 	String carBrand;
 
+	@Autowired
+	CustomerProperties customerProperties;
+
 	@Override
 	public void run(String... args) throws Exception {
 		log.info("---------- smsProviders list: {}",smsProviders);
@@ -96,6 +102,8 @@ public class LearnSpringBootApplication implements CommandLineRunner {
 		log.info("Direct load yaml file to properties: {}",yamlProperties);
 		log.info("bicycle.brand ：{}",bicycleBrand);
 		log.info("car.brand ：{}",carBrand);
+
+		log.info("customerProperties : {}",customerProperties);
 
 	}
 

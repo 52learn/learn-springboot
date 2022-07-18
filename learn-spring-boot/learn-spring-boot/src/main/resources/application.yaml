@@ -11,3 +11,10 @@ spring:
 logging:
   level:
     org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter: debug
+
+customer:
+  name: alibaba
+  valid-period: 365d
+  contract:
+    name: tom
+    phone: 15824135598

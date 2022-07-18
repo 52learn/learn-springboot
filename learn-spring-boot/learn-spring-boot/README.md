@@ -118,6 +118,15 @@ logging:
 ## Directly Loading YAML as property source 
 - com.example.learn.springboot.yaml.load.YamlLoadApplicationListener
 
+## Custom Validator 
+- com.example.learn.springboot.validation.UserNameUniqueValidator
+- com.example.learn.springboot.validation.UserNameUnique
+- com.example.learn.springboot.validation.ValidationAutoConfiguration
+
+```
+curl -H "Content-Type:application/json" -X POST -d '{"userName": "kim"}' http://127.0.0.1:8080/regist
+```
+
 ## Learn knowledge
 ### 获取类名中泛型类型
 org.springframework.boot.diagnostics.AbstractFailureAnalyzer.getCauseType
@@ -156,3 +165,9 @@ static {
     DEFAULT_SEARCH_LOCATIONS = locations.toArray(new ConfigDataLocation[0]);
 }
 ```
+### ConfigurationProperties validate source 
+- org.springframework.boot.context.properties.ConfigurationPropertiesBindingPostProcessor.postProcessBeforeInitialization
+- org.springframework.boot.context.properties.ConfigurationPropertiesBinder.bind
+- org.springframework.boot.context.properties.ConfigurationPropertiesBinder.getValidators
+- org.springframework.boot.context.properties.ConfigurationPropertiesJsr303Validator
+- org.springframework.boot.context.properties.bind.validation.ValidationBindHandler.validateAndPush

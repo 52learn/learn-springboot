@@ -6,7 +6,8 @@ com.example.learn.springboot.bean.processor.autoconfigure.BeanPostProcessorAutoC
 com.example.learn.springboot.custom.properties.autoconfigure.MyPropertiesAutoConfiguration,\
 com.example.learn.springboot.importest.autoconfigure.ImportAutoConfiguration,\
 com.example.learn.springboot.diagnostics.DiagnosticsAutoConfiguration,\
-com.example.learn.springboot.yaml.load.YamlLoadAutoConfiguration   
+com.example.learn.springboot.yaml.load.YamlLoadAutoConfiguration,\
+com.example.learn.springboot.validation.ValidationAutoConfiguration     
 
 # Application Listeners
 org.springframework.context.ApplicationListener=\
