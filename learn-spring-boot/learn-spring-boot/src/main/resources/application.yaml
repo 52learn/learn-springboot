@@ -5,6 +5,8 @@ sms:
     enabled: false
 
 spring:
+  messages:
+    use-code-as-default-message: true
   profiles:
     active: dev
 

@@ -8,7 +8,8 @@ com.example.learn.springboot.importest.autoconfigure.ImportAutoConfiguration,\
 com.example.learn.springboot.diagnostics.DiagnosticsAutoConfiguration,\
 com.example.learn.springboot.yaml.load.YamlLoadAutoConfiguration,\
 com.example.learn.springboot.validation.ValidationAutoConfiguration,\
-com.example.learn.springboot.properties.validator.ReportConfigPropertiesAutoConfiguration  
+com.example.learn.springboot.properties.validator.ReportConfigPropertiesAutoConfiguration,\
+com.example.learn.springboot.i18n.I18nMessageAutoConfiguration
 
 # Application Listeners
 org.springframework.context.ApplicationListener=\

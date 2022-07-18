@@ -2,6 +2,7 @@ package com.example.learn.springboot.main;
 
 import com.example.learn.springboot.custom.properties.MyProjectProperties;
 import com.example.learn.springboot.enable.*;
+import com.example.learn.springboot.i18n.I18nMessagePrinter;
 import com.example.learn.springboot.importest.OrderService;
 import com.example.learn.springboot.properties.CustomerProperties;
 import com.example.learn.springboot.sms.SmsProvider;
@@ -81,6 +82,9 @@ public class LearnSpringBootApplication implements CommandLineRunner {
 	@Autowired
 	CustomerProperties customerProperties;
 
+	@Autowired
+	I18nMessagePrinter i18nMessagePrinter;
+
 	@Override
 	public void run(String... args) throws Exception {
 		log.debug("debug info -----");
@@ -106,6 +110,7 @@ public class LearnSpringBootApplication implements CommandLineRunner {
 
 		log.info("customerProperties : {}",customerProperties);
 
+		i18nMessagePrinter.print();
 	}
 
 
