@@ -20,5 +20,8 @@ customer:
     phone: 15824135598
 report:
   sendByEmail: true
-  emailSubject:
-  recipient:
+  emailSubject: report issue
+  recipient: 52jinchao@163.com
+
+#debug: true
+#trace: true

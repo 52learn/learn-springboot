@@ -83,6 +83,7 @@ public class LearnSpringBootApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+		log.debug("debug info -----");
 		log.info("---------- smsProviders list: {}",smsProviders);
 		log.info("---------- env  is ：{}",env);
 		log.info("----------  activeProfile：{}",activeProfile);

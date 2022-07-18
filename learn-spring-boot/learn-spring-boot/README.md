@@ -126,14 +126,46 @@ logging:
 ```
 curl -H "Content-Type:application/json" -X POST -d '{"userName": "kim"}' http://127.0.0.1:8080/regist
 ```
-referenece:  
+reference:  
 http://dolszewski.com/spring/custom-validation-annotation-in-spring/ 
 
 ## Custom Validator for ConfigurationProperties 
 - com.example.learn.springboot.properties.validator.ReportConfigProperties
 
-referenece:  
+reference:  
 https://www.grabanotherbyte.com/en/spring/2020/08/06/how-to-customize-configuration-properties-validation-in-spring.html
+
+## Enable debug | trace logging for core loggers 
+core loggers:
+```
+org.springframework.boot.context.logging.LoggingApplicationListener.DEFAULT_GROUP_LOGGERS
+private static final Map<String, List<String>> DEFAULT_GROUP_LOGGERS;
+static {
+    MultiValueMap<String, String> loggers = new LinkedMultiValueMap<>();
+    loggers.add("web", "org.springframework.core.codec");
+    loggers.add("web", "org.springframework.http");
+    loggers.add("web", "org.springframework.web");
+    loggers.add("web", "org.springframework.boot.actuate.endpoint.web");
+    loggers.add("web", "org.springframework.boot.web.servlet.ServletContextInitializerBeans");
+    loggers.add("sql", "org.springframework.jdbc.core");
+    loggers.add("sql", "org.hibernate.SQL");
+    loggers.add("sql", "org.jooq.tools.LoggerListener");
+    DEFAULT_GROUP_LOGGERS = Collections.unmodifiableMap(loggers);
+}
+```
+two methods :
+- method 1: 
+```
+java -jar myapp.jar --debug|--trace
+```
+- method 2:
+application.yaml
+```
+trace|debug=true
+```
+
+reference  
+https://docs.spring.io/spring-boot/docs/2.7.1/reference/html/features.html#features.logging.console-output
 
 ## Learn knowledge
 ### 获取类名中泛型类型
