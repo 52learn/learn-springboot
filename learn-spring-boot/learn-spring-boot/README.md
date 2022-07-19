@@ -310,4 +310,7 @@ org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstanti
 ### refresh Spring ConfigurableApplicationContext  
 org.springframework.context.support.AbstractApplicationContext.refresh  
 
+### Invoke factory processors registered as beans in the context.
+org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors
+
 
