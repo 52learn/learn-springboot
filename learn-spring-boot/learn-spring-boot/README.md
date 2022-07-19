@@ -224,4 +224,7 @@ static {
 
 
 reference  
-- Springboot启动扩展点超详细总结，再也不怕面试官问了   https://segmentfault.com/a/1190000023033670     next: BeanDefinitionRegistryPostProcessor
+- Springboot启动扩展点超详细总结，再也不怕面试官问了   
+https://segmentfault.com/a/1190000023033670     next: BeanDefinitionRegistryPostProcessor
+- 深入理解BeanFactoryPostProcessor & BeanDefinitionRegistryPostProcessor 
+https://mrbird.cc/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3BeanFactoryPostProcessor-BeanDefinitionRegistryPostProcessor.html

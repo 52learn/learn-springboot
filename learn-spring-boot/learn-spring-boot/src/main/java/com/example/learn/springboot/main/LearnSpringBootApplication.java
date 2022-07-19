@@ -2,6 +2,7 @@ package com.example.learn.springboot.main;
 
 import com.example.learn.springboot.custom.properties.MyProjectProperties;
 import com.example.learn.springboot.enable.*;
+import com.example.learn.springboot.extension.po.Runner;
 import com.example.learn.springboot.i18n.I18nMessagePrinter;
 import com.example.learn.springboot.importest.OrderService;
 import com.example.learn.springboot.json.Car;
@@ -93,6 +94,12 @@ public class LearnSpringBootApplication implements CommandLineRunner {
 	@Autowired
 	ObjectMapper objectMapper;
 
+	@Value("${initialize.time:}")
+	private LocalDateTime initializeTime;
+
+	@Autowired
+	Runner runner;
+
 	@Override
 	public void run(String... args) throws Exception {
 		log.debug("debug info -----");
@@ -125,6 +132,10 @@ public class LearnSpringBootApplication implements CommandLineRunner {
 		car.setProductionTime(LocalDateTime.now());
 		String carJsonString = objectMapper.writeValueAsString(car);
 		log.info("carJsonString:{}",carJsonString);
+
+		log.info("initializeTime set by [com.example.learn.springboot.extension.MyApplicationContextInitializer.initialize]: {}",initializeTime);
+
+		log.info("runner set by [com.example.learn.springboot.extension.MyBeanDefinitionRegistryPostProcessor.postProcessBeanDefinitionRegistry] :{}",runner);
 	}
 
 
