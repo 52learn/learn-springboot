@@ -25,6 +25,8 @@ public class MyBeanDefinitionRegistryPostProcessor implements BeanDefinitionRegi
         log.info("postProcessBeanDefinitionRegistry---beanDefinitionCount:{}",beanDefinitionCount);
         BeanDefinitionBuilder  bdb = BeanDefinitionBuilder.genericBeanDefinition(Runner.class);
         BeanDefinition beanDefinition1 = bdb.getBeanDefinition();
+        beanDefinition1.getPropertyValues().addPropertyValue("name","tom");
+        beanDefinition1.getPropertyValues().addPropertyValue("weight","60");
         registry.registerBeanDefinition(Runner.class.getName(), beanDefinition1);
     }
 
@@ -33,5 +35,6 @@ public class MyBeanDefinitionRegistryPostProcessor implements BeanDefinitionRegi
         log.info("=====StartUp-Lifecycle=====>>>postProcessBeanFactory");
         int beanDefinitionCount = beanFactory.getBeanDefinitionCount();
         log.info("postProcessBeanFactory---beanDefinitionCount:{}",beanDefinitionCount);
+        beanFactory.addBeanPostProcessor(new MyInstantiationAwareBeanPostProcessor(beanFactory));
     }
 }

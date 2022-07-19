@@ -228,3 +228,86 @@ reference
 https://segmentfault.com/a/1190000023033670     next: BeanDefinitionRegistryPostProcessor
 - 深入理解BeanFactoryPostProcessor & BeanDefinitionRegistryPostProcessor 
 https://mrbird.cc/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3BeanFactoryPostProcessor-BeanDefinitionRegistryPostProcessor.html
+
+### @Autowired @Value 注入的实现原理相关源码
+org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties
+
+### XXXAware触发机制实现源码
+XXXAware：  
+EnvironmentAware,ResourceLoaderAware,ApplicationEventPublisherAware,MessageSourceAware,ApplicationStartupAware,ApplicationContextAware
+- org.springframework.context.support.ApplicationContextAwareProcessor
+org.springframework.context.support.ApplicationContextAwareProcessor.postProcessBeforeInitialization 中调用invokeAwareInterfaces方法：  
+```
+private void invokeAwareInterfaces(Object bean) {
+    if (bean instanceof EnvironmentAware) {
+        ((EnvironmentAware) bean).setEnvironment(this.applicationContext.getEnvironment());
+    }
+    if (bean instanceof EmbeddedValueResolverAware) {
+        ((EmbeddedValueResolverAware) bean).setEmbeddedValueResolver(this.embeddedValueResolver);
+    }
+    if (bean instanceof ResourceLoaderAware) {
+        ((ResourceLoaderAware) bean).setResourceLoader(this.applicationContext);
+    }
+    if (bean instanceof ApplicationEventPublisherAware) {
+        ((ApplicationEventPublisherAware) bean).setApplicationEventPublisher(this.applicationContext);
+    }
+    if (bean instanceof MessageSourceAware) {
+        ((MessageSourceAware) bean).setMessageSource(this.applicationContext);
+    }
+    if (bean instanceof ApplicationStartupAware) {
+        ((ApplicationStartupAware) bean).setApplicationStartup(this.applicationContext.getApplicationStartup());
+    }
+    if (bean instanceof ApplicationContextAware) {
+        ((ApplicationContextAware) bean).setApplicationContext(this.applicationContext);
+    }
+}
+```
+### Bean Initialize 
+org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(java.lang.String, java.lang.Object, org.springframework.beans.factory.support.RootBeanDefinition)
+```
+protected Object initializeBean(String beanName, Object bean, @Nullable RootBeanDefinition mbd) {
+    ···
+    invokeAwareMethods(beanName, bean);
+
+    Object wrappedBean = bean;
+    wrappedBean = applyBeanPostProcessorsBeforeInitialization(wrappedBean, beanName);
+
+    invokeInitMethods(beanName, wrappedBean, mbd);
+
+    applyBeanPostProcessorsAfterInitialization(wrappedBean, beanName);
+
+    return wrappedBean;
+}
+```
+
+Trigger of BeanNameAware,BeanClassLoaderAware,BeanFactoryAware 
+```
+private void invokeAwareMethods(String beanName, Object bean) {
+    if (bean instanceof Aware) {SmartInitializingSingleton 
+        if (bean instanceof BeanNameAware) {
+            ((BeanNameAware) bean).setBeanName(beanName);
+        }
+        if (bean instanceof BeanClassLoaderAware) {
+            ClassLoader bcl = getBeanClassLoader();
+            if (bcl != null) {
+                ((BeanClassLoaderAware) bean).setBeanClassLoader(bcl);
+            }
+        }
+        if (bean instanceof BeanFactoryAware) {
+            ((BeanFactoryAware) bean).setBeanFactory(AbstractAutowireCapableBeanFactory.this);
+        }
+    }
+}
+```
+### FactoryBean 
+
+FactoryBean is a programmatic contract. Implementations are no supposed to rely on annotation-driven injection or other reflective facilities.
+
+
+### Instantiate all remaining (non-lazy-init) singletons
+org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons
+
+### refresh Spring ConfigurableApplicationContext  
+org.springframework.context.support.AbstractApplicationContext.refresh  
+
+

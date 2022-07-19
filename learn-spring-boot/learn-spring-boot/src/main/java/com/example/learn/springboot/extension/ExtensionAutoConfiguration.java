@@ -10,4 +10,12 @@ public class ExtensionAutoConfiguration {
         return new MyBeanDefinitionRegistryPostProcessor();
     }
 
+    @Bean
+    ProgrammerFactoryBean programmerFactoryBean(){
+        return new ProgrammerFactoryBean();
+    }
+   /* @Bean
+    MyInstantiationAwareBeanPostProcessor myInstantiationAwareBeanPostProcessor(){
+        return new MyInstantiationAwareBeanPostProcessor();
+    }*/
 }

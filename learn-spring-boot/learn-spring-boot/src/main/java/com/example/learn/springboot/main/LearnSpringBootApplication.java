@@ -2,6 +2,8 @@ package com.example.learn.springboot.main;
 
 import com.example.learn.springboot.custom.properties.MyProjectProperties;
 import com.example.learn.springboot.enable.*;
+import com.example.learn.springboot.extension.ProgrammerFactoryBean;
+import com.example.learn.springboot.extension.po.Programmer;
 import com.example.learn.springboot.extension.po.Runner;
 import com.example.learn.springboot.i18n.I18nMessagePrinter;
 import com.example.learn.springboot.importest.OrderService;
@@ -100,6 +102,12 @@ public class LearnSpringBootApplication implements CommandLineRunner {
 	@Autowired
 	Runner runner;
 
+
+	@Autowired
+	ProgrammerFactoryBean programmerFactoryBean;
+	@Autowired
+	Programmer programmer;
+
 	@Override
 	public void run(String... args) throws Exception {
 		log.debug("debug info -----");
@@ -136,6 +144,12 @@ public class LearnSpringBootApplication implements CommandLineRunner {
 		log.info("initializeTime set by [com.example.learn.springboot.extension.MyApplicationContextInitializer.initialize]: {}",initializeTime);
 
 		log.info("runner set by [com.example.learn.springboot.extension.MyBeanDefinitionRegistryPostProcessor.postProcessBeanDefinitionRegistry] :{}",runner);
+
+		log.info("programmerFactoryBean : {}",programmerFactoryBean);
+		log.info("programmer [get by programmerFactoryBean.getObject()] : {}",programmerFactoryBean.getObject());
+		log.info("programmer [get by programmerFactoryBean.getObject()] : {}",programmerFactoryBean.getObject());
+		log.info("programmer [get by @Autowired]: {}",programmer);
+
 	}
 
 

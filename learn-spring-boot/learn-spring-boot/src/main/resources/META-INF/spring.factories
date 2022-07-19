@@ -14,7 +14,8 @@ com.example.learn.springboot.properties.validator.ReportConfigPropertiesAutoConf
 org.springframework.context.ApplicationListener=\
 com.example.learn.springboot.storage.StorageApplicationListener,\
 com.example.learn.springboot.custom.properties.PropertiesLoadApplicationListener,\
-com.example.learn.springboot.yaml.load.YamlLoadApplicationListener    
+com.example.learn.springboot.yaml.load.YamlLoadApplicationListener,\
+com.example.learn.springboot.extension.MyApplicationListener  
 
 com.example.learn.springboot.storage.factory.StorageFactory=\
 com.example.learn.springboot.storage.AliyunStorage.Factory,\
