@@ -1,5 +1,6 @@
 package com.example.learn.springboot.validation;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.validation.annotation.Validated;
@@ -18,12 +19,14 @@ public class ValidationAutoConfiguration {
         return new UserRepository();
     }
 
+    @Slf4j
     @RestController
     @Validated
     public static class UserController{
 
         @PostMapping("/regist")
         public String regist(@RequestBody  @Valid User user){
+            log.info("user:{}",user);
             return "regist ok";
         }
     }

@@ -172,10 +172,19 @@ https://docs.spring.io/spring-boot/docs/2.7.1/reference/html/features.html#featu
 add to :  
 META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports 
 
+## 
 
-## Learn knowledge
+```
+curl -H "Content-Type:application/json" -X POST -d '{"brand":"ibm","inch":14,"outputs":[{"name":"monitor"},{"name":"mouse"}]}' http://127.0.0.1:8080/convert
+```
+
+```
+http://127.0.0.1:8080/convert/param?laptop=notepad,15
+```
+## Learn Knowledge
+
 ### 获取类名中泛型类型
-org.springframework.boot.diagnostics.AbstractFailureAnalyzer.getCauseType
+org.springframework.boot.diagnostics.AbstractFailureAnalyzer#getCauseType
 ```
 /**
  * Return the cause type being handled by the analyzer. By default the class generic
@@ -305,9 +314,138 @@ FactoryBean is a programmatic contract. Implementations are no supposed to rely 
 
 
 ### Instantiate all remaining (non-lazy-init) singletons
-org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons
+org.springframework.beans.factory.support.DefaultListableBeanFactory#preInstantiateSingletons
 
 ### refresh Spring ConfigurableApplicationContext  
-org.springframework.context.support.AbstractApplicationContext.refresh  
+org.springframework.context.support.AbstractApplicationContext#refresh  
+
+### SpringMVC下的ConversionService(Convert)
+- org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration.EnableWebMvcConfiguration#mvcConversionService
+- org.springframework.boot.autoconfigure.web.format.WebConversionService#WebConversionService
+- org.springframework.format.support.DefaultFormattingConversionService#addDefaultFormatters
+- org.springframework.boot.convert.ApplicationConversionService#addBeans
+
+###
+- org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter
+- org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration.EnableWebMvcConfiguration#requestMappingHandlerAdapter
+
+### HttpMessageConverter VS Convert
+- org.springframework.http.converter.HttpMessageConverter
+Strategy interface for converting from and to HTTP requests (body) and responses (body).
+
+- org.springframework.core.convert.converter.Converter
+
+
+### main process of http request
+
+- org.springframework.web.servlet.FrameworkServlet#processRequest
+- org.springframework.web.servlet.DispatcherServlet#doService
+- org.springframework.web.servlet.DispatcherServlet#doDispatch
+- org.springframework.web.servlet.DispatcherServlet#getHandler
+- End >>>>>org.springframework.web.servlet.DispatcherServlet#noHandlerFound
+- org.springframework.web.servlet.DispatcherServlet#getHandlerAdapter
+  End >>>>>throw ServletException, if no HandlerAdapter can be found for the handler. This is a fatal error.
+- ->>> org.springframework.web.servlet.HandlerExecutionChain#applyPreHandle
+  iterate interceptorList and invoke org.springframework.web.servlet.HandlerInterceptor#preHandle
+  End >>>>>HandlerExecutionChain#applyPreHandle return false
+- ->>> org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter#handle
+- 	  org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter#handleInternal
+-     org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter#invokeHandlerMethod
+- 	  >>> org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod#invokeAndHandle
+- 		>>> org.springframework.web.method.support.InvocableHandlerMethod#invokeForRequest
+- 		>>> org.springframework.web.method.support.HandlerMethodReturnValueHandlerComposite#handleReturnValue
+        处理endpoint返回值，并写入到outstream流中
+
+
+
+### 将http请求内容(RequestParam、RequestBody)转换为Endpoint的参数对象
+org.springframework.web.method.annotation.AbstractNamedValueMethodArgumentResolver#resolveArgument
+ 
+- org.springframework.web.method.annotation.RequestParamMethodArgumentResolver#resolveName
+resolve http request param value 
+
+- org.springframework.web.bind.support.DefaultDataBinderFactory#createBinder
+create WebDataBinder
+
+- org.springframework.web.bind.support.ConfigurableWebBindingInitializer#initBinder
+init WebDataBinder
+ 
+```
+@Override
+public void initBinder(WebDataBinder binder) {
+	binder.setAutoGrowNestedPaths(this.autoGrowNestedPaths);
+	if (this.directFieldAccess) {
+		binder.initDirectFieldAccess();
+	}
+	if (this.messageCodesResolver != null) {
+		binder.setMessageCodesResolver(this.messageCodesResolver);
+	}
+	if (this.bindingErrorProcessor != null) {
+		binder.setBindingErrorProcessor(this.bindingErrorProcessor);
+	}
+	if (this.validator != null && binder.getTarget() != null &&
+			this.validator.supports(binder.getTarget().getClass())) {
+		binder.setValidator(this.validator);
+	}
+	if (this.conversionService != null) {
+		binder.setConversionService(this.conversionService);
+	}
+	if (this.propertyEditorRegistrars != null) {
+		for (PropertyEditorRegistrar propertyEditorRegistrar : this.propertyEditorRegistrars) {
+			propertyEditorRegistrar.registerCustomEditors(binder);
+		}
+	}
+}
+```
+- org.springframework.web.method.annotation.InitBinderDataBinderFactory#initBinder
+Adds initialization to a WebDataBinder via @InitBinder methods.
+
+- org.springframework.core.convert.support.GenericConversionService#convert(java.lang.Object, org.springframework.core.convert.TypeDescriptor, org.springframework.core.convert.TypeDescriptor)
+
+### 获取http请求对应的 HandlerMethodArgumentResolver
+- org.springframework.web.method.support.HandlerMethodArgumentResolverComposite#getArgumentResolver
+比如：org.springframework.web.method.annotation.RequestParamMethodArgumentResolver#supportsParameter 的实现中去找endpoint中@RequestParam注解是否存在。
+
+
+### endpoint返回值处理器的初始化配置
+- org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter#afterPropertiesSet
+```
+@Override
+public void afterPropertiesSet() {
+    // Do this first, it may add ResponseBody advice beans
+    initControllerAdviceCache();
+
+    if (this.argumentResolvers == null) {
+        List<HandlerMethodArgumentResolver> resolvers = getDefaultArgumentResolvers();
+        this.argumentResolvers = new HandlerMethodArgumentResolverComposite().addResolvers(resolvers);
+    }
+    if (this.initBinderArgumentResolvers == null) {
+        List<HandlerMethodArgumentResolver> resolvers = getDefaultInitBinderArgumentResolvers();
+        this.initBinderArgumentResolvers = new HandlerMethodArgumentResolverComposite().addResolvers(resolvers);
+    }
+    if (this.returnValueHandlers == null) {
+        List<HandlerMethodReturnValueHandler> handlers = getDefaultReturnValueHandlers();
+        this.returnValueHandlers = new HandlerMethodReturnValueHandlerComposite().addHandlers(handlers);
+    }
+}
+```
+ 
+
+### http request exception： Request Method xxx not supported
+- org.springframework.web.servlet.support.WebContentGenerator#checkRequest
+
+
+
+### The lastest upper level call before invoke Controller's endpoints
+- org.springframework.web.method.support.InvocableHandlerMethod#doInvoke
+```
+Method method = getBridgedMethod();
+try {
+	if (KotlinDetector.isSuspendingFunction(method)) {
+		return CoroutinesUtils.invokeSuspendingFunction(method, getBean(), args);
+	}
+	return method.invoke(getBean(), args);
+}
+```
 
 

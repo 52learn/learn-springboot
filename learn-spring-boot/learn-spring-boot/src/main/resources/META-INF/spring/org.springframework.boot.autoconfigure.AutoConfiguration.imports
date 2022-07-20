@@ -1,2 +1,3 @@
 com.example.learn.springboot.i18n.I18nMessageAutoConfiguration
 com.example.learn.springboot.extension.ExtensionAutoConfiguration
+com.example.learn.springboot.conversion.convert.MyConvertAutoConfiguration
