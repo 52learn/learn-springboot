@@ -1,5 +1,6 @@
 package com.example.learn.springboot.main;
 
+import com.example.learn.springboot.conversion.convert.Laptop;
 import com.example.learn.springboot.custom.properties.MyProjectProperties;
 import com.example.learn.springboot.enable.*;
 import com.example.learn.springboot.extension.ProgrammerFactoryBean;
@@ -11,6 +12,7 @@ import com.example.learn.springboot.json.Car;
 import com.example.learn.springboot.properties.CustomerProperties;
 import com.example.learn.springboot.sms.SmsProvider;
 import com.example.learn.springboot.storage.Storage;
+import com.example.learn.springboot.validation.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.core.convert.ConversionService;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoField;
@@ -108,6 +111,9 @@ public class LearnSpringBootApplication implements CommandLineRunner {
 	@Autowired
 	Programmer programmer;
 
+	@Autowired
+	ConversionService conversionService;
+
 	@Override
 	public void run(String... args) throws Exception {
 		log.debug("debug info -----");
@@ -150,6 +156,11 @@ public class LearnSpringBootApplication implements CommandLineRunner {
 		log.info("programmer [get by programmerFactoryBean.getObject()] : {}",programmerFactoryBean.getObject());
 		log.info("programmer [get by @Autowired]: {}",programmer);
 
+		log.info("String convert to Integer: {}", conversionService.convert("25", Integer.class));
+		Laptop laptop = conversionService.convert("{\"brand\":\"ibm\",\"inch\":14,\"outputs\":[{\"name\":\"monitor\"},{\"name\":\"mouse\"}]}", Laptop.class);
+		log.info("Json String convert to Laptop Object: {}", laptop.toString());
+		laptop = conversionService.convert("mac,15", Laptop.class);
+		log.info("Json String convert to Laptop Object: {}", laptop.toString());
 	}
 
 

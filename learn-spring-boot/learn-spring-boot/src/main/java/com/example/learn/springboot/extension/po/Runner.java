@@ -8,15 +8,17 @@ import org.springframework.beans.factory.*;
 import org.springframework.context.*;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.web.context.ServletContextAware;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.ServletContext;
 
 @Slf4j
 @Getter
 @Setter
 public class Runner implements SmartInitializingSingleton, BeanFactoryAware, BeanNameAware, BeanClassLoaderAware,
     EnvironmentAware, ResourceLoaderAware, ApplicationEventPublisherAware,
-    MessageSourceAware, ApplicationContextAware, InitializingBean {
+    MessageSourceAware, ApplicationContextAware, ServletContextAware, InitializingBean {
     String name;
     int weight;
     private BeanFactory beanFactory;
@@ -71,6 +73,10 @@ public class Runner implements SmartInitializingSingleton, BeanFactoryAware, Bea
     public void setBeanClassLoader(ClassLoader classLoader) {
         log.info("=====StartUp-Lifecycle=====>>>callback: BeanClassLoaderAware.setBeanClassLoader");
     }
+    @Override
+    public void setServletContext(ServletContext servletContext) {
+        log.info("=====StartUp-Lifecycle=====>>>callback: ServletContextAware.setServletContext");
+    }
     @PostConstruct
     public void init(){
         log.info("=====StartUp-Lifecycle=====>>>callback: init()  [Initialization use @PostConstruct]  ");
@@ -84,4 +90,6 @@ public class Runner implements SmartInitializingSingleton, BeanFactoryAware, Bea
     public void afterSingletonsInstantiated() {
         log.info("=====StartUp-Lifecycle=====>>>callback: SmartInitializingSingleton.afterSingletonsInstantiated");
     }
+
+
 }
