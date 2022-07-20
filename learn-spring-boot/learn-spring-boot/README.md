@@ -75,13 +75,20 @@ https://zhuanlan.zhihu.com/p/30123517
 once app startup ,it should check the app's construct, if violation the project constraint , then throw ProjectConstraintViolationException ,  startup fails 
 
 - com.example.learn.springboot.diagnostics.DiagnosticsAutoConfiguration
-- com.example.learn.springboot.diagnostics.ProjectConstraintViolationApplicationRunner
+- 定义检测类  
+  - option 1: com.example.learn.springboot.diagnostics.ProjectConstraintViolationApplicationRunner: do check until app startup  
+  - option 2: com.example.learn.springboot.diagnostics.DiagnosticsApplicationListener: do check once ApplicationEnvironment Prepared (receive ApplicationEnvironmentPreparedEvent) 
+
 - com.example.learn.springboot.diagnostics.ProjectConstraintViolationException
 - com.example.learn.springboot.diagnostics.ProjectConstraintViolationFailureAnalyzer
 - spring.factories
 ```
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.example.learn.springboot.diagnostics.DiagnosticsAutoConfiguration 
+com.example.learn.springboot.diagnostics.DiagnosticsAutoConfiguration
+
+org.springframework.context.ApplicationListener=\
+com.example.learn.springboot.diagnostics.DiagnosticsApplicationListener  
+
 # Failure Analyzers
 org.springframework.boot.diagnostics.FailureAnalyzer=\
 com.example.learn.springboot.diagnostics.ProjectConstraintViolationFailureAnalyzer
