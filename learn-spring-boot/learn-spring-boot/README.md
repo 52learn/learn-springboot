@@ -179,15 +179,50 @@ https://docs.spring.io/spring-boot/docs/2.7.1/reference/html/features.html#featu
 add to :  
 META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports 
 
-## 
+## http request @RequestBody with json content,supported with MappingJackson2HttpMessageConverter by default
 
 ```
-curl -H "Content-Type:application/json" -X POST -d '{"brand":"ibm","inch":14,"outputs":[{"name":"monitor"},{"name":"mouse"}]}' http://127.0.0.1:8080/convert
+curl -H "Content-Type:application/json" -v -X POST -d '{"brand":"ibm","inch":14,"outputs":[{"name":"monitor"},{"name":"mouse"}]}' http://127.0.0.1:8080/convert
 ```
-
+# http request @RequestParam with format string, by custom StringToLaptopConvert
+- com.example.learn.springboot.conversion.convert.StringToLaptopConvert
+- com.example.learn.springboot.conversion.convert.MyConvertAutoConfiguration
 ```
 http://127.0.0.1:8080/convert/param?laptop=notepad,15
+``` 
+
+## support xmlHttpMessageConverter with xml representation 
+- create MarshallingHttpMessageConverter bean  
 ```
+@Bean
+public HttpMessageConverter<Object> xmlHttpMessageConverter() {
+    MarshallingHttpMessageConverter xmlConverter = new MarshallingHttpMessageConverter();
+    XStreamMarshaller xstreamMarshaller = new XStreamMarshaller();
+    xmlConverter.setMarshaller(xstreamMarshaller);
+    xmlConverter.setUnmarshaller(xstreamMarshaller);
+    return xmlConverter;
+}
+```
+- add dependencies to pom.xml 
+```
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-oxm</artifactId>
+    <version>5.3.21</version>
+</dependency>
+<dependency>
+    <groupId>com.thoughtworks.xstream</groupId>
+    <artifactId>xstream</artifactId>
+    <version>1.4.11.1</version>
+</dependency>
+```
+
+```
+curl -H "Accept: application/xml" -v -X GET http://127.0.0.1:8080/person
+
+curl -H "Accept: application/xml" -H "Content-Type:application/xml" -v -X POST -d "<com.example.learn.springboot.web.WebController_-Person><name>tom</name><age>27</age></com.example.learn.springboot.web.WebController_-Person>" POST http://127.0.0.1:8080/person
+```
+
 ## Learn Knowledge
 
 ### 获取类名中泛型类型
