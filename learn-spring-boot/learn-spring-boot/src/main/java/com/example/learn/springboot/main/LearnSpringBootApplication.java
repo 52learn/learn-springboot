@@ -12,7 +12,6 @@ import com.example.learn.springboot.json.Car;
 import com.example.learn.springboot.properties.CustomerProperties;
 import com.example.learn.springboot.sms.SmsProvider;
 import com.example.learn.springboot.storage.Storage;
-import com.example.learn.springboot.validation.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +27,6 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.core.convert.ConversionService;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoField;
-import java.time.temporal.TemporalField;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -114,6 +111,9 @@ public class LearnSpringBootApplication implements CommandLineRunner {
 	@Autowired
 	ConversionService conversionService;
 
+	@Value("${property.source.username:}")
+	private String propertySourceUsername;
+
 	@Override
 	public void run(String... args) throws Exception {
 		log.debug("debug info -----");
@@ -161,6 +161,8 @@ public class LearnSpringBootApplication implements CommandLineRunner {
 		log.info("Json String convert to Laptop Object: {}", laptop.toString());
 		laptop = conversionService.convert("mac,15", Laptop.class);
 		log.info("Json String convert to Laptop Object: {}", laptop.toString());
+
+		log.info("load variable via @PropertySource , propertySourceUsername:{}", propertySourceUsername);
 	}
 
 

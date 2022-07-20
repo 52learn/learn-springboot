@@ -223,6 +223,14 @@ curl -H "Accept: application/xml" -v -X GET http://127.0.0.1:8080/person
 curl -H "Accept: application/xml" -H "Content-Type:application/xml" -v -X POST -d "<com.example.learn.springboot.web.WebController_-Person><name>tom</name><age>27</age></com.example.learn.springboot.web.WebController_-Person>" POST http://127.0.0.1:8080/person
 ```
 
+
+## Customize @PropertySource support yaml file
+
+
+
+reference:  
+https://www.baeldung.com/spring-yaml-propertysource
+
 ## Learn Knowledge
 
 ### 获取类名中泛型类型
