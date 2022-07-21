@@ -14,7 +14,7 @@ public class PropertySourceUsageAutoConfiguration {
     }
 
     @Configuration
-    @PropertySource(value = "classpath:propertysource.yaml")
+    @PropertySource(value = "classpath:propertysource.yaml",factory = YamlPropertySourceFactory.class)
     public class PropertySourceWithYamlConfiguration{
 
     }

@@ -123,7 +123,12 @@ logging:
 - com.example.learn.springboot.yaml.load.YamlLoadAutoConfiguration.yamlProperties
 
 ## Directly Loading YAML as property source 
-- com.example.learn.springboot.yaml.load.YamlLoadApplicationListener
+case 1: (Preferred)
+- com.example.learn.springboot.yaml.load.YamlLoadApplicationListener#getPropertySourceByYamlPropertiesFactoryBean
+
+case 2:
+- com.example.learn.springboot.yaml.load.YamlLoadApplicationListener#getPropertySourceByYamlPropertySourceLoader
+
 
 ## Custom Validator 
 - com.example.learn.springboot.validation.UserNameUniqueValidator
@@ -225,7 +230,8 @@ curl -H "Accept: application/xml" -H "Content-Type:application/xml" -v -X POST -
 
 
 ## Customize @PropertySource support yaml file
-
+- com.example.learn.springboot.properties.YamlPropertySourceFactory
+- com.example.learn.springboot.properties.PropertySourceUsageAutoConfiguration.PropertySourceWithYamlConfiguration
 
 
 reference:  

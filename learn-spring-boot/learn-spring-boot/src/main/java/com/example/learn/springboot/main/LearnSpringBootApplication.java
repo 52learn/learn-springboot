@@ -114,6 +114,9 @@ public class LearnSpringBootApplication implements CommandLineRunner {
 	@Value("${property.source.username:}")
 	private String propertySourceUsername;
 
+	@Value("${property.source.brand:}")
+	private String propertySourceBrand;
+
 	@Override
 	public void run(String... args) throws Exception {
 		log.debug("debug info -----");
@@ -162,7 +165,10 @@ public class LearnSpringBootApplication implements CommandLineRunner {
 		laptop = conversionService.convert("mac,15", Laptop.class);
 		log.info("Json String convert to Laptop Object: {}", laptop.toString());
 
-		log.info("load variable via @PropertySource , propertySourceUsername:{}", propertySourceUsername);
+		log.info("load variable via @PropertySource(value = \"classpath:propertysource.properties\") , propertySourceUsername:{}", propertySourceUsername);
+
+		log.info("load variable via @PropertySource(value = \"classpath:propertysource.yaml\",factory = YamlPropertySourceFactory.class) , propertySourceBrand:{}", propertySourceBrand);
+
 	}
 
 
