@@ -189,12 +189,29 @@ META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports
 ```
 curl -H "Content-Type:application/json" -v -X POST -d '{"brand":"ibm","inch":14,"outputs":[{"name":"monitor"},{"name":"mouse"}]}' http://127.0.0.1:8080/convert
 ```
-# http request @RequestParam with format string, by custom StringToLaptopConvert
+## http request @RequestParam with format string, via customize StringToLaptopConvert
 - com.example.learn.springboot.conversion.convert.StringToLaptopConvert
 - com.example.learn.springboot.conversion.convert.MyConvertAutoConfiguration
 ```
 http://127.0.0.1:8080/convert/param?laptop=notepad,15
-``` 
+```
+
+- org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration.EnableWebMvcConfiguration#mvcConversionService
+springweb-mvc应用中,创建WebConversionService(为GenericConversionService子类) 注入容器:
+```
+@Bean
+@Override
+public FormattingConversionService mvcConversionService() {
+    Format format = this.mvcProperties.getFormat();
+    WebConversionService conversionService = new WebConversionService(new DateTimeFormatters()
+            .dateFormat(format.getDate()).timeFormat(format.getTime()).dateTimeFormat(format.getDateTime()));
+    addFormatters(conversionService);
+    return conversionService;
+}
+```
+
+- org.springframework.core.convert.support.GenericConversionService#addConverter(org.springframework.core.convert.converter.Converter<?,?>)
+添加Converter时会将其包装转换为GenericConverter类型实例，所以WebConversionService中所有converters均为GenericConverter类型
 
 ## support xmlHttpMessageConverter with xml representation 
 - create MarshallingHttpMessageConverter bean  
@@ -581,3 +598,7 @@ if (selectedMediaType != null) {
     }
 }
 ```
+
+###  GenericConverter, Converter, WebConversionService,HttpMessageConverter 
+WebConversionService包含N个GenericConverter，作为门户接口类，并注入到容器中，同时提供对象转换方法；HttpMessageConverter 可以通过注入获得WebConversionService对象，调用其转换方法实现对象转换；
+ 
