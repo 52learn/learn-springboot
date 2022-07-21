@@ -229,6 +229,24 @@ curl -H "Accept: application/xml" -H "Content-Type:application/xml" -v -X POST -
 ```
 
 
+## support PropertiesHttpMessageConvert with properties representation
+- com.example.learn.springboot.web.PropertiesHttpMessageConverter
+    - 服务端请求接受MediaType: "Content-Type:text/plain"
+    - 客户端响应接受MediaType: "Accept: text/plain"
+实现properties格式字符串传输，服务端通过自定义HttpMessageConverter(PropertiesHttpMessageConvert)将请求内容转换为Properties对象，在endpoint中直接接收Properties参数对象；
+```
+@PostMapping(value = "/person/properties")
+public Properties postPerson(@RequestBody Properties person)
+```    
+```
+curl -v -X POST  http://127.0.0.1:8080/person/properties \
+-H "Content-Type:text/plain" \
+-H "Accept: text/plain" \
+-d 'person.name=Gates\
+person.age=18'
+```
+
+
 ## Customize @PropertySource support yaml file
 - com.example.learn.springboot.properties.YamlPropertySourceFactory
 - com.example.learn.springboot.properties.PropertySourceUsageAutoConfiguration.PropertySourceWithYamlConfiguration
@@ -508,3 +526,58 @@ try {
 org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors
 
 
+### org.springframework.web.HttpMediaTypeNotSupportedException  httpStatusCode: 415
+Exception Desc：Resolved [org.springframework.web.HttpMediaTypeNotSupportedException: Content type 'text/plain;charset=UTF-8' not supported]
+- org.springframework.web.servlet.mvc.method.annotation.AbstractMessageConverterMethodArgumentResolver#readWithMessageConverters(org.springframework.http.HttpInputMessage, org.springframework.core.MethodParameter, java.lang.reflect.Type)
+
+### select httpmessageConvert to convert response content
+
+- org.springframework.http.converter.HttpMessageConverter#canWrite
+参数mediaType为http请求头的Accept值，用该方法过滤获得HttpMessageConverter
+```
+/**
+ * Indicates whether the given class can be written by this converter.
+ * @param clazz the class to test for writability
+ * @param mediaType the media type to write (can be {@code null} if not specified);
+ * typically the value of an {@code Accept} header.
+ * @return {@code true} if writable; {@code false} otherwise
+ */
+boolean canWrite(Class<?> clazz, @Nullable MediaType mediaType);
+```
+
+- org.springframework.web.servlet.mvc.method.annotation.AbstractMessageConverterMethodProcessor#writeWithMessageConverters(T, org.springframework.core.MethodParameter, org.springframework.http.server.ServletServerHttpRequest, org.springframework.http.server.ServletServerHttpResponse)
+selectedMediaType 为http请求头的Accept值，过滤获得HttpMessageConverter后，调用write方法写入响应流；	
+```
+if (selectedMediaType != null) {
+    selectedMediaType = selectedMediaType.removeQualityValue();
+    for (HttpMessageConverter<?> converter : this.messageConverters) {
+        GenericHttpMessageConverter genericConverter = (converter instanceof GenericHttpMessageConverter ?
+                (GenericHttpMessageConverter<?>) converter : null);
+        if (genericConverter != null ?
+                ((GenericHttpMessageConverter) converter).canWrite(targetType, valueType, selectedMediaType) :
+                converter.canWrite(valueType, selectedMediaType)) {
+            body = getAdvice().beforeBodyWrite(body, returnType, selectedMediaType,
+                    (Class<? extends HttpMessageConverter<?>>) converter.getClass(),
+                    inputMessage, outputMessage);
+            if (body != null) {
+                Object theBody = body;
+                LogFormatUtils.traceDebug(logger, traceOn ->
+                        "Writing [" + LogFormatUtils.formatValue(theBody, !traceOn) + "]");
+                addContentDispositionHeader(inputMessage, outputMessage);
+                if (genericConverter != null) {
+                    genericConverter.write(body, targetType, selectedMediaType, outputMessage);
+                }
+                else {
+                    ((HttpMessageConverter) converter).write(body, selectedMediaType, outputMessage);
+                }
+            }
+            else {
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Nothing to write: null body");
+                }
+            }
+            return;
+        }
+    }
+}
+```

@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Properties;
+
 @RestController
 public class WebController {
 
@@ -21,6 +24,16 @@ public class WebController {
         person.setAge(30);
         return person;
     }
+
+    @PostMapping(value = "/person/properties")
+    public Properties postPerson(@RequestBody Properties person){
+        String name = person.getProperty("person.name");
+        String age = person.getProperty("person.age");
+        person.setProperty("person.name",name+"-changed");
+        person.setProperty("person.age",age+"-changed");
+        return person;
+    }
+
 
     @ToString
     @Getter
