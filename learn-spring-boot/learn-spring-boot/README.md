@@ -427,6 +427,44 @@ Strategy interface for converting from and to HTTP requests (body) and responses
 - org.springframework.core.convert.converter.Converter
 
 
+### 业务开发中的Controller类的@RequestMapping方法(endpoint)生成HandlerMethod实例化过程
+依附于RequestMappingHandlerMapping#afterPropertiesSet初始化方法中实现的
+- org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping#afterPropertiesSet
+- org.springframework.web.servlet.handler.AbstractHandlerMethodMapping#initHandlerMethods
+  获取容器中所有beanNames,循环遍历获取beanName
+- ->>> org.springframework.web.servlet.handler.AbstractHandlerMethodMapping#processCandidateBean
+- ->>>>> org.springframework.web.servlet.handler.AbstractHandlerMethodMapping#isHandler
+   判断类上是否有@Controller或者@RequestMapping注解
+- ->>>>> org.springframework.web.servlet.handler.AbstractHandlerMethodMapping#detectHandlerMethods
+    找到所有@RequestMapping方法、并调用方法注册HandlerMethod
+- ->>>>>>> org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping#registerHandlerMethod
+- .......
+- ->>>>>>> org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.MappingRegistry#register
+创建HandlerMethod，验证RequestMappingInfo，最终注册到MappingRegistry里
+
+注意点：
+- org.springframework.web.method.HandlerMethod#bean 字段为Object类型，可以为字符串或者具体Controller对象类型；
+
+ 
+## Controller类的Endpoint方法修饰符不正确抛异常
+- org.springframework.aop.support.AopUtils#selectInvocableMethod 
+
+## 存在重复endpoint抛出异常
+- org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.MappingRegistry#validateMethodMapping
+从org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.MappingRegistry#registry map集合中获取当前RequestMappingInfo的HandlerMethod，若存在则抛出异常：
+```
+private void validateMethodMapping(HandlerMethod handlerMethod, T mapping) {
+    MappingRegistration<T> registration = this.registry.get(mapping);
+    HandlerMethod existingHandlerMethod = (registration != null ? registration.getHandlerMethod() : null);
+    if (existingHandlerMethod != null && !existingHandlerMethod.equals(handlerMethod)) {
+        throw new IllegalStateException(
+                "Ambiguous mapping. Cannot map '" + handlerMethod.getBean() + "' method \n" +
+                handlerMethod + "\nto " + mapping + ": There is already '" +
+                existingHandlerMethod.getBean() + "' bean method\n" + existingHandlerMethod + " mapped.");
+    }
+} 
+```
+
 ### main process of http request
 
 - org.springframework.web.servlet.FrameworkServlet#processRequest
