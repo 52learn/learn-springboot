@@ -443,13 +443,15 @@ Strategy interface for converting from and to HTTP requests (body) and responses
 创建HandlerMethod，验证RequestMappingInfo，最终注册到MappingRegistry里
 
 注意点：
-- org.springframework.web.method.HandlerMethod#bean 字段为Object类型，可以为字符串或者具体Controller对象类型；
-
+- org.springframework.web.method.HandlerMethod#bean 
+字段为Object类型，可以为Controller类字符串（beanName)或者具体Controller对象类型；
+- org.springframework.web.servlet.HandlerExecutionChain#handler
+字段为Object类型，为HandlerMethod
  
-## Controller类的Endpoint方法修饰符不正确抛异常
+### Controller类的Endpoint方法修饰符不正确抛异常
 - org.springframework.aop.support.AopUtils#selectInvocableMethod 
 
-## 存在重复endpoint抛出异常
+### 存在重复endpoint抛出异常
 - org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.MappingRegistry#validateMethodMapping
 从org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.MappingRegistry#registry map集合中获取当前RequestMappingInfo的HandlerMethod，若存在则抛出异常：
 ```
@@ -464,7 +466,33 @@ private void validateMethodMapping(HandlerMethod handlerMethod, T mapping) {
     }
 } 
 ```
+### RequestMappingHandlerMapping 中添加Interceptors的过程
+分两阶段添加Interceptors：  
+阶段一：实例化RequestMappingHandlerMapping过程中
+- org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport#requestMappingHandlerMapping
+- org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport#getInterceptors
 
+阶段二：初始化RequestMappingHandlerMapping之前，在ApplicationContextAware回调中：
+- org.springframework.context.support.ApplicationContextAwareProcessor#postProcessBeforeInitialization
+- org.springframework.context.support.ApplicationContextAwareProcessor#invokeAwareInterfaces
+- org.springframework.context.support.ApplicationObjectSupport#setApplicationContext
+- org.springframework.web.servlet.handler.AbstractHandlerMapping#initApplicationContext
+- org.springframework.web.servlet.handler.AbstractHandlerMapping#detectMappedInterceptors
+``` 
+/**
+ * Detect beans of type {@link MappedInterceptor} and add them to the list
+ * of mapped interceptors.
+ * <p>This is called in addition to any {@link MappedInterceptor}s that may
+ * have been provided via {@link #setInterceptors}, by default adding all
+ * beans of type {@link MappedInterceptor} from the current context and its
+ * ancestors. Subclasses can override and refine this policy.
+ * @param mappedInterceptors an empty list to add to
+ */
+protected void detectMappedInterceptors(List<HandlerInterceptor> mappedInterceptors) {
+    mappedInterceptors.addAll(BeanFactoryUtils.beansOfTypeIncludingAncestors(
+            obtainApplicationContext(), MappedInterceptor.class, true, false).values());
+}
+```
 ### main process of http request
 
 - org.springframework.web.servlet.FrameworkServlet#processRequest
@@ -646,7 +674,8 @@ HandlerExecutionChain contains a HandlerMethod(Handler)  and  a list of HandlerI
 - ->>> org.springframework.web.servlet.handler.AbstractHandlerMapping#getHandlerInternal
 lookup Handler(HandlerMethod) with request
 - ->>> org.springframework.web.servlet.handler.AbstractHandlerMapping.getHandlerExecutionChain
-lookup HandlerExecutionChain with handler and request
+Initialize HandlerExecutionChain with handler and request，add interceptors
+
 
 
 
