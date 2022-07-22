@@ -601,4 +601,15 @@ if (selectedMediaType != null) {
 
 ###  GenericConverter, Converter, WebConversionService,HttpMessageConverter 
 WebConversionService包含N个GenericConverter，作为门户接口类，并注入到容器中，同时提供对象转换方法；HttpMessageConverter 可以通过注入获得WebConversionService对象，调用其转换方法实现对象转换；
+
+### lookup HandlerExecutionChain
+HandlerExecutionChain contains a HandlerMethod(Handler)  and  a list of HandlerInterceptor
+- org.springframework.web.servlet.handler.AbstractHandlerMapping#getHandler
+- ->>> org.springframework.web.servlet.handler.AbstractHandlerMapping#getHandlerInternal
+lookup Handler(HandlerMethod) with request
+- ->>> org.springframework.web.servlet.handler.AbstractHandlerMapping.getHandlerExecutionChain
+lookup HandlerExecutionChain with handler and request
+
+
+
  
