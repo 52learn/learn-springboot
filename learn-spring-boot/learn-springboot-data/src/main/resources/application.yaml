@@ -1,0 +1,17 @@
+
+
+spring:
+  datasource:
+    url:
+    hikari:
+      auto-commit: true
+      maximum-pool-size: 10
+
+
+  jdbc:
+    template:
+      max-rows: 100
+      fetch-size: 1
+logging:
+  level:
+    org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter: debug
