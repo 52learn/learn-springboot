@@ -2,17 +2,25 @@
 
 spring:
   datasource:
-    url:
-    hikari:
-      auto-commit: true
-      maximum-pool-size: 10
+    url: jdbc:h2:file:~/learn-springboot-data-h2-db
+    username: sa
+    password: sa
 
-
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
   jdbc:
     template:
       max-rows: 100
       fetch-size: 1
       query-timeout: 3s
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+      data-locations: classpath:data.sql
+
 logging:
   level:
     org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter: debug
