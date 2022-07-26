@@ -1,5 +1,6 @@
 package com.example.learn.springboot.web;
 
+import com.example.learn.springboot.web.interceptor.MyHandlerInterceptor;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -9,6 +10,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.xml.MarshallingHttpMessageConverter;
 import org.springframework.oxm.xstream.XStreamMarshaller;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 
 @AutoConfiguration(after = HttpMessageConvertersAutoConfiguration.class)
 public class MyWebMvcAutoconfiguration {
@@ -29,5 +31,12 @@ public class MyWebMvcAutoconfiguration {
     @Bean
     WebController webController(){
         return new WebController();
+    }
+
+
+
+    @Bean
+    MyWebMvcConfigurer myWebMvcConfigurer(){
+        return new MyWebMvcConfigurer();
     }
 }

@@ -444,7 +444,21 @@ Strategy interface for converting from and to HTTP requests (body) and responses
 
 注意点：
 - org.springframework.web.method.HandlerMethod#bean 
-字段为Object类型，可以为Controller类字符串（beanName)或者具体Controller对象类型；
+字段为Object类型，表示对应endpoint方法所属的controller实例对象，可以为Controller类名（beanName)或者具体Controller对象类型；
+运行时存储对象HandlerMethod结构(部分)：
+```
+handler = {HandlerMethod@7478} "com.example.learn.springboot.web.WebController#postPerson(Person)"
+ bean = {WebController@8620} 
+ beanFactory = {DefaultListableBeanFactory@6635} "org.springframework.beans.factory.support.DefaultListableBeanFactory@200a26bc: defining beans [org.springframework.context.annotation.internalConfigurationAnnotationProcessor,org.springframework.context.annotation.internalAutowiredAnnotationProcessor,org.springframework.context.annotation.internalCommonAnnotationProcessor,org.springframework.context.event.internalEventListenerProcessor,org.springframework.context.event.internalEventListenerFactory,learnSpringBootApplication,org.springframework.boot.autoconfigure.internalCachingMetadataReaderFactory,org.springframework.cache.annotation.ProxyCachingConfiguration,org.springframework.cache.config.internalCacheAdvisor,cacheOperationSource,cacheInterceptor,com.example.learn.springboot.enable.SomeBeanConfiguration,bean1,com.example.learn.springboot.enable.Module1Configuration,moudle1Name,com.example.learn.springboot.enable.Module2Configuration,moudle2Name,org.springframework.boot.autoconfigure.AutoConfigurationPackages,org.springframework.aop"
+ messageSource = {AnnotationConfigServletWebServerApplicationContext@6636} "org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@7e38a7fe, started on Sat Jul 23 15:35:15 CST 2022"
+ beanType = {Class@6735} "class com.example.learn.springboot.web.WebController"
+ method = {Method@8621} "public com.example.learn.springboot.web.WebController$Person com.example.learn.springboot.web.WebController.postPerson(com.example.learn.springboot.web.WebController$Person)"
+ bridgedMethod = {Method@8621} "public com.example.learn.springboot.web.WebController$Person com.example.learn.springboot.web.WebController.postPerson(com.example.learn.springboot.web.WebController$Person)"
+ parameters = {MethodParameter[1]@8622} 
+  0 = {HandlerMethod$HandlerMethodParameter@8629} "method 'postPerson' parameter 0"
+ responseStatus = null
+ responseStatusReason = null
+```
 - org.springframework.web.servlet.HandlerExecutionChain#handler
 字段为Object类型，为HandlerMethod
  
@@ -677,6 +691,8 @@ lookup Handler(HandlerMethod) with request
 Initialize HandlerExecutionChain with handler and request，add interceptors
 
 
-
-
+### XXXExposingInterceptor
+Such as :
+- org.springframework.web.servlet.resource.ResourceUrlProviderExposingInterceptor
+- org.springframework.web.servlet.handler.ConversionServiceExposingInterceptor
  
