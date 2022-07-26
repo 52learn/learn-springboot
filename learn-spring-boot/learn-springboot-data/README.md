@@ -1,6 +1,6 @@
 # Features list
 ## spring-data-jdbc: JdbcTemplate Usage
-- com.example.learn.springboo.data.repository.impl.CustomerDaoWithJdbcTemplate
+- com.example.learn.springboo.data.repository.impl.template.CustomerDaoWithJdbcTemplate
 
 ## spring-data-jdbc: Jdbc Repository Usage (like jpa and simpler)
 - how to insert entity with save method
@@ -12,7 +12,7 @@ insertCustomer.setInsert(true);
 customerRepository.save(insertCustomer);
 ```    
 - update entity 
-    - 方法1：com.example.learn.springboo.data.repository.impl.CustomerRepository#update
+    - 方法1：com.example.learn.springboo.data.repository.impl.repository.CustomerRepository#update
     ```
     public interface CustomerRepository extends CrudRepository<Customer,String> {
         @Modifying
@@ -135,3 +135,19 @@ private boolean isEnabled() {
 }
 ```
 - org.springframework.boot.jdbc.EmbeddedDatabaseConnection.IsEmbedded#doInConnection
+
+## mybatis @Mapper instance bean process
+- org.mybatis.spring.annotation.MapperScan
+- org.mybatis.spring.annotation.MapperScannerRegistrar
+    - org.mybatis.spring.annotation.MapperScannerRegistrar#registerBeanDefinitions
+    register org.mybatis.spring.mapper.MapperScannerConfigurer beanDefinition
+
+- org.mybatis.spring.mapper.MapperScannerConfigurer#postProcessBeanDefinitionRegistry
+- org.springframework.context.annotation.ClassPathBeanDefinitionScanner#scan
+    Perform a scan within the specified base packages and register beans (MapperFactoryBean) 
+
+- org.springframework.dao.support.DaoSupport#afterPropertiesSet
+    MapperFactoryBean initialize method.
+    - org.apache.ibatis.binding.MapperRegistry#addMapper
+    - org.apache.ibatis.builder.annotation.MapperAnnotationBuilder#parse
+

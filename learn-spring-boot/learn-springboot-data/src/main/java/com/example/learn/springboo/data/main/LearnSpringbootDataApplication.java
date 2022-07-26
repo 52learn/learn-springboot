@@ -1,8 +1,10 @@
-package com.example.learn.springboo.data;
+package com.example.learn.springboo.data.main;
 
+import com.example.learn.springboo.data.HoldProcessor;
 import com.example.learn.springboo.data.repository.entity.Customer;
-import com.example.learn.springboo.data.repository.impl.CustomerRepository;
-import com.example.learn.springboo.data.repository.impl.CustomerDaoWithJdbcTemplate;
+import com.example.learn.springboo.data.repository.impl.mapper.CustomerMapper;
+import com.example.learn.springboo.data.repository.impl.repository.CustomerRepository;
+import com.example.learn.springboo.data.repository.impl.template.CustomerDaoWithJdbcTemplate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -38,6 +40,9 @@ public class LearnSpringbootDataApplication implements ApplicationRunner {
 
 	@Autowired
 	CustomerRepository customerRepository;
+
+	@Autowired
+	CustomerMapper customerMapper;
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		myRepository.save();
@@ -62,5 +67,7 @@ public class LearnSpringbootDataApplication implements ApplicationRunner {
 		customer = customerRepository.save(customer);
 		log.info("[Use jdbc repository] save customer return : {} ",customer);
 
+		Customer customerQueryByMybatis = customerMapper.findByCustomerCode("XF00003");
+		log.info("[Use mybatis ] query customer : {} ",customerQueryByMybatis);
 	}
 }

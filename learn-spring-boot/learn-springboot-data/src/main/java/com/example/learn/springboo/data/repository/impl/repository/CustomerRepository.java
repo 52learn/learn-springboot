@@ -1,4 +1,4 @@
-package com.example.learn.springboo.data.repository.impl;
+package com.example.learn.springboo.data.repository.impl.repository;
 
 import com.example.learn.springboo.data.repository.entity.Customer;
 import org.springframework.data.jdbc.repository.query.Modifying;

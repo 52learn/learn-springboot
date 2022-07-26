@@ -8,12 +8,14 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.domain.Persistable;
 import org.springframework.data.relational.core.mapping.Table;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table("customer")
-public class Customer extends PersistableEntity implements Persistable<String>{
+@Table("CUSTOMER")
+public class Customer extends PersistableEntity implements Persistable<String>, Serializable {
+    private static final long serialVersionUID = 1L;
     @Id
     private String customerCode;
     private String customerName;

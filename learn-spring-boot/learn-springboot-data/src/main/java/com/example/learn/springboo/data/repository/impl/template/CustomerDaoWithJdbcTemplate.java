@@ -1,4 +1,4 @@
-package com.example.learn.springboo.data.repository.impl;
+package com.example.learn.springboo.data.repository.impl.template;
 
 import com.example.learn.springboo.data.repository.entity.Customer;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
-@Component
 public class CustomerDaoWithJdbcTemplate {
 
     private final JdbcTemplate jdbcTemplate;

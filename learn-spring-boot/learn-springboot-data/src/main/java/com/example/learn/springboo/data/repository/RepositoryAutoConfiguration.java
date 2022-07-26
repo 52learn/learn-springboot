@@ -1,0 +1,31 @@
+package com.example.learn.springboo.data.repository;
+
+import com.example.learn.springboo.data.repository.impl.template.CustomerDaoWithJdbcTemplate;
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
+import org.springframework.jdbc.core.JdbcTemplate;
+
+@AutoConfiguration
+public class RepositoryAutoConfiguration {
+
+    @Bean
+    CustomerDaoWithJdbcTemplate customerDaoWithJdbcTemplate(JdbcTemplate jdbcTemplate){
+        return new CustomerDaoWithJdbcTemplate(jdbcTemplate);
+    }
+
+    @Configuration
+    @EnableJdbcRepositories
+    public static class JdbcRepositoryConfiguration{
+
+    }
+    @Configuration
+    @MapperScan(value = "com.example.learn.springboo.data.repository.impl.mapper")
+    public static class MybatisConfiguration{
+
+    }
+
+
+}
