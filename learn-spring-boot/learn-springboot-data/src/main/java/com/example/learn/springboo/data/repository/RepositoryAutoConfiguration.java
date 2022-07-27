@@ -1,6 +1,7 @@
 package com.example.learn.springboo.data.repository;
 
 import com.example.learn.springboo.data.repository.impl.template.CustomerDaoWithJdbcTemplate;
+import com.example.learn.springboo.data.repository.interceptor.EncryptDecryptInterceptor;
 import com.example.learn.springboo.data.repository.interceptor.ModifyCountAutoIncrementInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -28,6 +29,10 @@ public class RepositoryAutoConfiguration {
         @Bean
         ModifyCountAutoIncrementInterceptor modifyCountAutoIncrementInterceptor(){
             return new ModifyCountAutoIncrementInterceptor();
+        }
+        @Bean
+        EncryptDecryptInterceptor encryptDecryptInterceptor(){
+            return new EncryptDecryptInterceptor();
         }
     }
 
