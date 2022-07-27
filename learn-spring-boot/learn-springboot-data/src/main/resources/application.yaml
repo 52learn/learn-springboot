@@ -21,8 +21,14 @@ spring:
       mode: always
       schema-locations: classpath:schema.sql
       data-locations: classpath:data.sql
-
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+    default-fetch-size: 100
+    default-statement-timeout: 5
+    local-cache-scope: session
 logging:
   level:
     org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter: debug
     com.example.learn.springboo.data.repository.impl: trace
+    org.mybatis: trace

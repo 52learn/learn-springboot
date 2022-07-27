@@ -28,6 +28,21 @@ customerRepository.save(insertCustomer);
     - Spring Data JDBC Tutorial with Examples：https://www.amitph.com/introduction-spring-data-jdbc/#insert_record_with_custom_id
     - Introduction to Spring Data JDBC：https://www.baeldung.com/spring-data-jdbc-intro
 
+
+## create mybatis Interceptor
+case 1: 修改次数自动更新拦截器
+- com.example.learn.springboo.data.repository.interceptor.ModifyCountAutoIncrementInterceptor
+- com.example.learn.springboo.data.repository.RepositoryAutoConfiguration.MybatisConfiguration#myInterceptor
+
+case 2: encryption and decryption sensitive field
+- com.example.learn.springboo.data.repository.interceptor.EncryptDecryptInterceptor
+
+
+
+reference：
+Mybatis Interceptor 拦截器 : https://segmentfault.com/a/1190000017393523
+MyBatis拦截器原理探究: https://www.cnblogs.com/fangjian0423/p/mybatis-interceptor.html
+
 # Learn knowledge
 ## How to Instance HikariDataSource Bean
 org.springframework.boot.jdbc.EmbeddedDatabaseConnection
@@ -35,7 +50,6 @@ org.springframework.boot.jdbc.EmbeddedDatabaseConnection
     - org.springframework.boot.autoconfigure.jdbc.DataSourceProperties#afterPropertiesSet
 -  Instance HikariDataSource 
 org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration.Hikari#dataSource
-
 
 
 
@@ -150,4 +164,23 @@ private boolean isEnabled() {
     MapperFactoryBean initialize method.
     - org.apache.ibatis.binding.MapperRegistry#addMapper
     - org.apache.ibatis.builder.annotation.MapperAnnotationBuilder#parse
+        - org.apache.ibatis.builder.annotation.MapperAnnotationBuilder#loadXmlResource
+        加载XXXMapper.xml
 
+## invoke the methods (@Select,@Update) of @Mapper interface 
+- org.apache.ibatis.binding.MapperProxy.PlainMethodInvoker#invoke
+- org.apache.ibatis.binding.MapperMethod#execute
+
+## mybatis从ResultSet获取行转换为实体对象
+- org.apache.ibatis.executor.resultset.DefaultResultSetHandler.getRowValue(org.apache.ibatis.executor.resultset.ResultSetWrapper, org.apache.ibatis.mapping.ResultMap, java.lang.String)
+    - org.apache.ibatis.executor.resultset.DefaultResultSetHandler#createResultObject(org.apache.ibatis.executor.resultset.ResultSetWrapper, org.apache.ibatis.mapping.ResultMap, org.apache.ibatis.executor.loader.ResultLoaderMap, java.lang.String)
+    - org.apache.ibatis.executor.resultset.DefaultResultSetHandler#shouldApplyAutomaticMappings
+    - org.apache.ibatis.executor.resultset.DefaultResultSetHandler#applyPropertyMappings
+
+## @NestedConfigurationProperty Usage
+- org.mybatis.spring.boot.autoconfigure.MybatisProperties#configuration
+
+
+## mybatis SqlSessionFactory instantiation
+- org.mybatis.spring.SqlSessionFactoryBean#afterPropertiesSet
+    - org.mybatis.spring.SqlSessionFactoryBean#buildSqlSessionFactory

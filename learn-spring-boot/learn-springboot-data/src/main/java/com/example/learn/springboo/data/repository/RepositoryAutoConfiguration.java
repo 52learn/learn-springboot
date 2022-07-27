@@ -1,6 +1,7 @@
 package com.example.learn.springboo.data.repository;
 
 import com.example.learn.springboo.data.repository.impl.template.CustomerDaoWithJdbcTemplate;
+import com.example.learn.springboo.data.repository.interceptor.ModifyCountAutoIncrementInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -24,7 +25,10 @@ public class RepositoryAutoConfiguration {
     @Configuration
     @MapperScan(value = "com.example.learn.springboo.data.repository.impl.mapper")
     public static class MybatisConfiguration{
-
+        @Bean
+        ModifyCountAutoIncrementInterceptor modifyCountAutoIncrementInterceptor(){
+            return new ModifyCountAutoIncrementInterceptor();
+        }
     }
 
 

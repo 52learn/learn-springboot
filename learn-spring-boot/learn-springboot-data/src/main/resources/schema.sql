@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS `customer`  (
   `customer_name` varchar(255) NOT NULL  DEFAULT '' COMMENT ' 企业客户名称',
   `customer_phone` varchar(50) NOT NULL  DEFAULT '' ,
   `is_member` int NULL DEFAULT NULL,
+  `modifier_count` int DEFAULT 0 COMMENT '修改次数,每次修改自动+1',
   `create_time` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`customer_code`)
 ) ;

@@ -2,6 +2,7 @@ package com.example.learn.springboo.data.main;
 
 import com.example.learn.springboo.data.HoldProcessor;
 import com.example.learn.springboo.data.repository.entity.Customer;
+import com.example.learn.springboo.data.repository.entity.CustomerForMybatis;
 import com.example.learn.springboo.data.repository.impl.mapper.CustomerMapper;
 import com.example.learn.springboo.data.repository.impl.repository.CustomerRepository;
 import com.example.learn.springboo.data.repository.impl.template.CustomerDaoWithJdbcTemplate;
@@ -67,7 +68,21 @@ public class LearnSpringbootDataApplication implements ApplicationRunner {
 		customer = customerRepository.save(customer);
 		log.info("[Use jdbc repository] save customer return : {} ",customer);
 
-		Customer customerQueryByMybatis = customerMapper.findByCustomerCode("XF00003");
+		int updateFlag = customerMapper.update("modify-666","XF00003");
+		log.info("[Use mybatis ] update customer : {} ",updateFlag);
+		CustomerForMybatis customerQueryByMybatis = customerMapper.findByCustomerCode("XF00003");
 		log.info("[Use mybatis ] query customer : {} ",customerQueryByMybatis);
+
+		List<CustomerForMybatis> customerForMybatisList = customerMapper.queryAll();
+		log.info("[Use mybatis ] queryAll customer : {} ",customerForMybatisList);
+
+		CustomerForMybatis customerForMybatisForInsert = new CustomerForMybatis();
+		customerForMybatisForInsert.setCreateTime(LocalDateTime.now());
+		customerForMybatisForInsert.setCustomerCode("XF00005");
+		customerForMybatisForInsert.setCustomerName("腾讯科技");
+		customerForMybatisForInsert.setCustomerPhone("0772-32312222");
+		customerForMybatisForInsert.setIsMember(1);
+		int saveFlag = customerMapper.insert(customerForMybatisForInsert);
+		log.info("[Use mybatis ] insert customer : {} ",saveFlag);
 	}
 }
