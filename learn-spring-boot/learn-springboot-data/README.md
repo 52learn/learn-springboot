@@ -158,14 +158,20 @@ private boolean isEnabled() {
 
 - org.mybatis.spring.mapper.MapperScannerConfigurer#postProcessBeanDefinitionRegistry
 - org.springframework.context.annotation.ClassPathBeanDefinitionScanner#scan
-    Perform a scan within the specified base packages and register beans (MapperFactoryBean) 
+- org.springframework.context.annotation.ClassPathBeanDefinitionScanner#doScan
+    Perform a scan within the specified base packages and register beans (MapperFactoryBean) ,every Mapper has one MapperFactoryBean
 
 - org.springframework.dao.support.DaoSupport#afterPropertiesSet
     MapperFactoryBean initialize method.
+    - org.mybatis.spring.mapper.MapperFactoryBean#checkDaoConfig
     - org.apache.ibatis.binding.MapperRegistry#addMapper
+    add Mapper to MapperRegistry
+ 
     - org.apache.ibatis.builder.annotation.MapperAnnotationBuilder#parse
         - org.apache.ibatis.builder.annotation.MapperAnnotationBuilder#loadXmlResource
         加载XXXMapper.xml
+- reference
+Spring整合MyBatis（四）MapperFactoryBean 的创建: https://www.cnblogs.com/warehouse/p/9446054.html
 
 ## invoke the methods (@Select,@Update) of @Mapper interface 
 - org.apache.ibatis.binding.MapperProxy.PlainMethodInvoker#invoke

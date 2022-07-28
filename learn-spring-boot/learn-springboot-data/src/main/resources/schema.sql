@@ -14,5 +14,19 @@ CREATE TABLE IF NOT EXISTS `customer`  (
   PRIMARY KEY (`customer_code`)
 ) ;
 
+CREATE TABLE IF NOT EXISTS `mall_order`  (
+  `order_code` varchar(32)  NOT NULL,
+  `order_name` varchar(255) NOT NULL DEFAULT '',
+  `create_time` datetime(0) NULL DEFAULT NULL,
+  `employee_code` varchar(32) NOT NULL DEFAULT '',
+  `employee_name` varchar(255) NOT NULL DEFAULT '',
+  `customer_code` varchar(32) NOT NULL DEFAULT '',
+  `customer_name` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`order_code`)
+) ;
+
+
+
 truncate table item;
 truncate table customer;
+truncate table mall_order;

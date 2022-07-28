@@ -3,11 +3,15 @@ package com.example.learn.springboo.data.main;
 import com.example.learn.springboo.data.HoldProcessor;
 import com.example.learn.springboo.data.repository.entity.Customer;
 import com.example.learn.springboo.data.repository.entity.CustomerForMybatis;
+import com.example.learn.springboo.data.repository.entity.MallOrderForMybatis;
 import com.example.learn.springboo.data.repository.impl.mapper.CustomerMapper;
+import com.example.learn.springboo.data.repository.impl.mapper.MallOrderMapper;
 import com.example.learn.springboo.data.repository.impl.repository.CustomerRepository;
 import com.example.learn.springboo.data.repository.impl.template.CustomerDaoWithJdbcTemplate;
 import lombok.extern.slf4j.Slf4j;
+import org.mybatis.spring.mapper.MapperFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
@@ -48,6 +52,13 @@ public class LearnSpringbootDataApplication implements ApplicationRunner {
 
 	@Autowired
 	ApplicationContext applicationContext;
+	@Autowired
+	MallOrderMapper mallOrderMapper;
+
+	@Autowired
+	@Qualifier("&mallOrderMapperFactoryBean")
+	MapperFactoryBean mallOrderMapperFactoryBean;
+
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		myRepository.save();
@@ -88,6 +99,7 @@ public class LearnSpringbootDataApplication implements ApplicationRunner {
 		customerForMybatisForInsert.setIsMember(1);
 		int saveFlag = customerMapper.insert(customerForMybatisForInsert);
 		log.info("[Use mybatis ] insert customer : {} ",saveFlag);
-
+		List<MallOrderForMybatis> mallOrders = mallOrderMapper.queryByCustomerCode("XF00001");
+		log.info("[Use mybatis ] query mallOrders : {} ",mallOrders);
 	}
 }

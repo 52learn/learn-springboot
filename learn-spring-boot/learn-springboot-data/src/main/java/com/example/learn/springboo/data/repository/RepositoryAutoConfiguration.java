@@ -2,10 +2,14 @@ package com.example.learn.springboo.data.repository;
 
 import com.example.learn.springboo.data.repository.customizer.MyConfigurationCustomizer;
 import com.example.learn.springboo.data.repository.customizer.MySqlSessionFactoryBeanCustomizer;
+import com.example.learn.springboo.data.repository.impl.mapper.MallOrderMapper;
 import com.example.learn.springboo.data.repository.impl.template.CustomerDaoWithJdbcTemplate;
 import com.example.learn.springboo.data.repository.interceptor.EncryptDecryptInterceptor;
 import com.example.learn.springboo.data.repository.interceptor.ModifyCountAutoIncrementInterceptor;
+import com.fasterxml.jackson.databind.ext.SqlBlobSerializer;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.annotation.MapperScan;
+import org.mybatis.spring.mapper.MapperFactoryBean;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -45,6 +49,14 @@ public class RepositoryAutoConfiguration {
         MyConfigurationCustomizer myConfigurationCustomizer(){
             return new MyConfigurationCustomizer();
         }
+
+        @Bean
+        MapperFactoryBean<MallOrderMapper> mallOrderMapperFactoryBean(SqlSessionFactory sqlSessionFactory){
+            MapperFactoryBean<MallOrderMapper> mallOrderMapperFactoryBean = new MapperFactoryBean<>(MallOrderMapper.class);
+            mallOrderMapperFactoryBean.setSqlSessionFactory(sqlSessionFactory);
+            return mallOrderMapperFactoryBean;
+        }
+
     }
 
 
