@@ -43,6 +43,29 @@ reference：
 Mybatis Interceptor 拦截器 : https://segmentfault.com/a/1190000017393523
 MyBatis拦截器原理探究: https://www.cnblogs.com/fangjian0423/p/mybatis-interceptor.html
 
+## two methods create Mapper bean
+- Define XXXMapper interface and Use @Mapper 
+ com.example.learn.springboo.data.repository.impl.mapper.CustomerMapper
+```
+@Mapper
+public interface CustomerMapper {
+...
+}
+```
+- Define XXXMapper interface and Use MapperFactoryBean
+```
+public interface MallOrderMapper {
+...
+}
+
+@Bean
+MapperFactoryBean<MallOrderMapper> mallOrderMapperFactoryBean(SqlSessionFactory sqlSessionFactory){
+    MapperFactoryBean<MallOrderMapper> mallOrderMapperFactoryBean = new MapperFactoryBean<>(MallOrderMapper.class);
+    mallOrderMapperFactoryBean.setSqlSessionFactory(sqlSessionFactory);
+    return mallOrderMapperFactoryBean;
+}
+
+```
 # Learn knowledge
 ## How to Instance HikariDataSource Bean
 org.springframework.boot.jdbc.EmbeddedDatabaseConnection
