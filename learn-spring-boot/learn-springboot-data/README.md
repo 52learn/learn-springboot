@@ -184,3 +184,45 @@ private boolean isEnabled() {
 ## mybatis SqlSessionFactory instantiation
 - org.mybatis.spring.SqlSessionFactoryBean#afterPropertiesSet
     - org.mybatis.spring.SqlSessionFactoryBean#buildSqlSessionFactory
+
+
+## @ConditionalOnSingleCandidate
+- org.springframework.boot.autoconfigure.condition.ConditionalOnSingleCandidate
+- org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration
+
+## FactoryBean Usecase
+- org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration#sqlSessionFactory
+create bean:
+```
+@Bean
+@ConditionalOnMissingBean
+public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
+    SqlSessionFactoryBean factory = new SqlSessionFactoryBean();
+    ...
+    return factory.getObject();
+}
+``` 
+- org.mybatis.spring.SqlSessionFactoryBean#getObject
+SqlSessionFactoryBean implements  FactoryBean<SqlSessionFactory>, InitializingBean, override getObject() and afterPropertiesSet()
+```
+public class SqlSessionFactoryBean
+    implements FactoryBean<SqlSessionFactory>, InitializingBean, ApplicationListener<ApplicationEvent> {
+    @Override
+    public SqlSessionFactory getObject() throws Exception {
+        if (this.sqlSessionFactory == null) {
+          afterPropertiesSet();
+        }
+        
+        return this.sqlSessionFactory;
+    }
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        notNull(dataSource, "Property 'dataSource' is required");
+        notNull(sqlSessionFactoryBuilder, "Property 'sqlSessionFactoryBuilder' is required");
+        state((configuration == null && configLocation == null) || !(configuration != null && configLocation != null),
+            "Property 'configuration' and 'configLocation' can not specified with together");
+        
+        this.sqlSessionFactory = buildSqlSessionFactory();
+    }
+}
+```

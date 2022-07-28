@@ -1,5 +1,7 @@
 package com.example.learn.springboo.data.repository;
 
+import com.example.learn.springboo.data.repository.customizer.MyConfigurationCustomizer;
+import com.example.learn.springboo.data.repository.customizer.MySqlSessionFactoryBeanCustomizer;
 import com.example.learn.springboo.data.repository.impl.template.CustomerDaoWithJdbcTemplate;
 import com.example.learn.springboo.data.repository.interceptor.EncryptDecryptInterceptor;
 import com.example.learn.springboo.data.repository.interceptor.ModifyCountAutoIncrementInterceptor;
@@ -33,6 +35,15 @@ public class RepositoryAutoConfiguration {
         @Bean
         EncryptDecryptInterceptor encryptDecryptInterceptor(){
             return new EncryptDecryptInterceptor();
+        }
+
+        @Bean
+        MySqlSessionFactoryBeanCustomizer mySqlSessionFactoryBeanCustomizer(){
+            return new MySqlSessionFactoryBeanCustomizer();
+        }
+        @Bean
+        MyConfigurationCustomizer myConfigurationCustomizer(){
+            return new MyConfigurationCustomizer();
         }
     }
 

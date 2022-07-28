@@ -12,6 +12,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -44,6 +45,9 @@ public class LearnSpringbootDataApplication implements ApplicationRunner {
 
 	@Autowired
 	CustomerMapper customerMapper;
+
+	@Autowired
+	ApplicationContext applicationContext;
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		myRepository.save();
@@ -84,5 +88,6 @@ public class LearnSpringbootDataApplication implements ApplicationRunner {
 		customerForMybatisForInsert.setIsMember(1);
 		int saveFlag = customerMapper.insert(customerForMybatisForInsert);
 		log.info("[Use mybatis ] insert customer : {} ",saveFlag);
+
 	}
 }
