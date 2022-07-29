@@ -197,8 +197,42 @@ private boolean isEnabled() {
 Spring整合MyBatis（四）MapperFactoryBean 的创建: https://www.cnblogs.com/warehouse/p/9446054.html
 
 ## invoke the methods (@Select,@Update) of @Mapper interface 
+- org.apache.ibatis.binding.MapperProxy#invoke
 - org.apache.ibatis.binding.MapperProxy.PlainMethodInvoker#invoke
 - org.apache.ibatis.binding.MapperMethod#execute
+- org.mybatis.spring.SqlSessionTemplate#update(java.lang.String, java.lang.Object)
+    - org.apache.ibatis.session.SqlSession#update(java.lang.String, java.lang.Object)
+    - org.mybatis.spring.SqlSessionTemplate.SqlSessionInterceptor#invoke
+        - org.mybatis.spring.SqlSessionUtils#getSqlSession(org.apache.ibatis.session.SqlSessionFactory, org.apache.ibatis.session.ExecutorType, org.springframework.dao.support.PersistenceExceptionTranslator)
+        - org.apache.ibatis.session.defaults.DefaultSqlSessionFactory#openSessionFromDataSource
+            - org.apache.ibatis.session.Configuration#newExecutor(org.apache.ibatis.transaction.Transaction, org.apache.ibatis.session.ExecutorType)
+                - org.apache.ibatis.plugin.InterceptorChain#pluginAll
+## (StatementHandler)
+
+- reference
+MyBatis 核心配置综述之StatementHandler: https://www.cnblogs.com/cxuanBlog/p/11295488.html
+
+## SQL中的参数处理(ParameterHandler)
+如下方将customerCode参数值设置到SQL中：
+```
+@Mapper
+public interface CustomerMapper {
+  @Select("SELECT * FROM customer WHERE customer_code = #{customerCode}")
+  CustomerForMybatis findByCustomerCode(@Param("customerCode") String customerCode);
+}
+```
+
+- org.apache.ibatis.scripting.defaults.DefaultParameterHandler#setParameters
+
+- reference
+MyBatis 核心配置综述之 ParameterHandler:  https://www.cnblogs.com/cxuanBlog/p/11318502.html
+
+
+## SQL执行结果集处理(ResultSetHandler)
+- org.apache.ibatis.executor.resultset.DefaultResultSetHandler
+
+- reference
+MyBatis 核心配置综述之 ResultSetHandler: https://www.cnblogs.com/cxuanBlog/p/11318861.html
 
 ## mybatis从ResultSet获取行转换为实体对象
 - org.apache.ibatis.executor.resultset.DefaultResultSetHandler.getRowValue(org.apache.ibatis.executor.resultset.ResultSetWrapper, org.apache.ibatis.mapping.ResultMap, java.lang.String)
