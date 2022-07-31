@@ -8,7 +8,9 @@ import com.example.learn.springboo.data.repository.impl.mapper.CustomerMapper;
 import com.example.learn.springboo.data.repository.impl.mapper.MallOrderMapper;
 import com.example.learn.springboo.data.repository.impl.repository.CustomerRepository;
 import com.example.learn.springboo.data.repository.impl.template.CustomerDaoWithJdbcTemplate;
+import com.example.learn.springboo.data.repository.interceptor.AnotherInterceptor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.plugin.InterceptorChain;
 import org.mybatis.spring.mapper.MapperFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -61,6 +63,8 @@ public class LearnSpringbootDataApplication implements ApplicationRunner {
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
+
+
 		myRepository.save();
 		Customer customer = myRepository.query("XF00003");
 		log.info("[Use jdbcTemplate ]query customer {customerCode=XF00003}  ,customer :{} ",customer);
@@ -101,5 +105,16 @@ public class LearnSpringbootDataApplication implements ApplicationRunner {
 		log.info("[Use mybatis ] insert customer : {} ",saveFlag);
 		List<MallOrderForMybatis> mallOrders = mallOrderMapper.queryByCustomerCode("XF00001");
 		log.info("[Use mybatis ] query mallOrders : {} ",mallOrders);
+
+/*
+探索interceptor chain构造与使用：
+		AnotherInterceptor test = new AnotherInterceptor();
+		InterceptorChain chain = new InterceptorChain();
+		chain.addInterceptor(test);
+		Object  object = chain.pluginAll(customerRepository);
+		CustomerRepository cr = ((CustomerRepository)object);
+		boolean updateFlag2 = cr.update("XF00003","modify-12345");
+		log.info("[Use jdbc repository] update customer :{} ",updateFlag2);*/
+
 	}
 }
