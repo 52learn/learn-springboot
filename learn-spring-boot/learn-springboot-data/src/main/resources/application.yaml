@@ -21,12 +21,17 @@ spring:
       mode: always
       schema-locations: classpath:schema.sql
       data-locations: classpath:data.sql
+  redis:
+    password: 12345
+    port: 6379
+    host: 192.168.33.1
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
     default-fetch-size: 100
     default-statement-timeout: 5
     local-cache-scope: session
+
 logging:
   level:
     org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter: debug
