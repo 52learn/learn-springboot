@@ -24,7 +24,7 @@ spring:
   redis:
     password: 12345
     port: 6379
-    host: 192.168.33.1
+    host: 192.168.33.10
 mybatis:
   configuration:
     map-underscore-to-camel-case: true

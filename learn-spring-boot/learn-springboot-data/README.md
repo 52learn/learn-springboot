@@ -289,3 +289,38 @@ public class SqlSessionFactoryBean
     }
 }
 ```
+## Use Functional Programming (if ... else ... )
+Functional Programming eg:
+- org.springframework.data.redis.connection.RedisPassword
+```
+/**
+ * Create a {@link RedisPassword} from a {@link String}.
+ *
+ * @param passwordAsString the password as string.
+ * @return the {@link RedisPassword} for {@code passwordAsString}.
+ */
+public static RedisPassword of(@Nullable String passwordAsString) {
+
+    return Optional.ofNullable(passwordAsString) //
+            .filter(StringUtils::hasText) //
+            .map(it -> new RedisPassword(it.toCharArray())) //
+            .orElseGet(RedisPassword::none);
+}
+```
+Plain Java eg:
+```
+public static RedisPassword of(@Nullable String passwordAsString) {
+    if(StringUtils::hasText(passwordAsString)){
+        return new RedisPassword(it.toCharArray());
+    }else{
+        return RedisPassword.none();
+    }
+}
+```
+## check class exist
+- rg.springframework.boot.autoconfigure.data.redis.RedisConnectionConfiguration#COMMONS_POOL2_AVAILABLE
+```
+private static final boolean COMMONS_POOL2_AVAILABLE = ClassUtils.isPresent("org.apache.commons.pool2.ObjectPool",
+        RedisConnectionConfiguration.class.getClassLoader());
+```
+

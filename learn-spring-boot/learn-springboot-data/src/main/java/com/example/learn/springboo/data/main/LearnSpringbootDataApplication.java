@@ -17,9 +17,13 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @SpringBootApplication
@@ -58,6 +62,12 @@ public class LearnSpringbootDataApplication implements ApplicationRunner {
 	@Autowired
 	@Qualifier("&mallOrderMapperFactoryBean")
 	MapperFactoryBean mallOrderMapperFactoryBean;
+
+	@Autowired
+	RedisTemplate redisTemplate;
+
+	@Autowired
+	StringRedisTemplate stringRedisTemplate;
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
@@ -104,6 +114,21 @@ public class LearnSpringbootDataApplication implements ApplicationRunner {
 		List<MallOrderForMybatis> mallOrders = mallOrderMapper.queryByCustomerCode("XF00001");
 		log.info("[Use mybatis ] query mallOrders : {} ",mallOrders);
 
+
+		redisTemplate.opsForValue().set("env","dev");
+		Object env = redisTemplate.opsForValue().get("env");
+		log.info("opsForValue env:{}",env);
+
+
+		stringRedisTemplate.opsForValue().set("name","kim");
+		String name = stringRedisTemplate.opsForValue().get("name");
+		log.info("opsForValue name:{}",name);
+		Map<String,Object> map = new HashMap<>();
+		map.put("name","kim");
+		map.put("height","173");
+		stringRedisTemplate.opsForHash().putAll("myself",map);
+		List<Object> mapValues = stringRedisTemplate.opsForHash().multiGet("myself",List.of("name","height"));
+		log.info("opsForHash mapValues:{}",mapValues);
 /*
 探索interceptor chain构造与使用：
 		AnotherInterceptor test = new AnotherInterceptor();
