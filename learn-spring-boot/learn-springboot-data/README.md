@@ -66,6 +66,11 @@ MapperFactoryBean<MallOrderMapper> mallOrderMapperFactoryBean(SqlSessionFactory 
 }
 
 ```
+
+## redis repository
+- com.example.learn.springboo.data.nosql.redis.MyRedisAutoConfiguration
+- com.example.learn.springboo.data.nosql.redis.repository.PersonRepository
+
 # Learn knowledge
 ## How to Instance HikariDataSource Bean
 org.springframework.boot.jdbc.EmbeddedDatabaseConnection
@@ -324,3 +329,77 @@ private static final boolean COMMONS_POOL2_AVAILABLE = ClassUtils.isPresent("org
         RedisConnectionConfiguration.class.getClassLoader());
 ```
 
+## Use FactoryBean to new Redis Repository Instance
+- org.springframework.data.redis.repository.configuration.EnableRedisRepositories#repositoryFactoryBeanClass
+
+## RedisRepositoriesAutoConfiguration 
+- org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
+
+## Redis Repository Bean instantiation 
+- org.springframework.data.keyvalue.repository.support.KeyValueRepositoryFactoryBean#afterPropertiesSet
+- org.springframework.data.repository.core.support.RepositoryFactoryBeanSupport#afterPropertiesSet
+    - org.springframework.data.keyvalue.repository.support.KeyValueRepositoryFactoryBean#createRepositoryFactory()
+    - org.springframework.data.repository.core.support.RepositoryFactorySupport#getRepositoryMetadata
+    - org.springframework.data.repository.core.support.RepositoryFactorySupport#getRepository(java.lang.Class<T>, org.springframework.data.repository.core.support.RepositoryComposition.RepositoryFragments)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    

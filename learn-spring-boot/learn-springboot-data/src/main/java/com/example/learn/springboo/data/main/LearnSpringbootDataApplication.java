@@ -1,6 +1,8 @@
 package com.example.learn.springboo.data.main;
 
 import com.example.learn.springboo.data.HoldProcessor;
+import com.example.learn.springboo.data.nosql.redis.repository.Person;
+import com.example.learn.springboo.data.nosql.redis.repository.PersonRepository;
 import com.example.learn.springboo.data.repository.entity.Customer;
 import com.example.learn.springboo.data.repository.entity.CustomerForMybatis;
 import com.example.learn.springboo.data.repository.entity.MallOrderForMybatis;
@@ -8,6 +10,8 @@ import com.example.learn.springboo.data.repository.impl.mapper.CustomerMapper;
 import com.example.learn.springboo.data.repository.impl.mapper.MallOrderMapper;
 import com.example.learn.springboo.data.repository.impl.repository.CustomerRepository;
 import com.example.learn.springboo.data.repository.impl.template.CustomerDaoWithJdbcTemplate;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.mapper.MapperFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +21,12 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.keyvalue.repository.KeyValueRepository;
+import org.springframework.data.redis.core.*;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @SpringBootApplication
@@ -68,6 +71,13 @@ public class LearnSpringbootDataApplication implements ApplicationRunner {
 
 	@Autowired
 	StringRedisTemplate stringRedisTemplate;
+
+
+	@Autowired
+	PersonRepository personRepository;
+
+	@Autowired
+	ObjectMapper objectMapper;
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
@@ -114,11 +124,11 @@ public class LearnSpringbootDataApplication implements ApplicationRunner {
 		List<MallOrderForMybatis> mallOrders = mallOrderMapper.queryByCustomerCode("XF00001");
 		log.info("[Use mybatis ] query mallOrders : {} ",mallOrders);
 
+		clearRedis();
 
 		redisTemplate.opsForValue().set("env","dev");
 		Object env = redisTemplate.opsForValue().get("env");
 		log.info("opsForValue env:{}",env);
-
 
 		stringRedisTemplate.opsForValue().set("name","kim");
 		String name = stringRedisTemplate.opsForValue().get("name");
@@ -129,6 +139,49 @@ public class LearnSpringbootDataApplication implements ApplicationRunner {
 		stringRedisTemplate.opsForHash().putAll("myself",map);
 		List<Object> mapValues = stringRedisTemplate.opsForHash().multiGet("myself",List.of("name","height"));
 		log.info("opsForHash mapValues:{}",mapValues);
+		log.info("stringRedisTemplate.opsForHash().scan ......");
+		try(Cursor<Map.Entry<Object, Object>> cursor = stringRedisTemplate.opsForHash().scan("myself", ScanOptions.scanOptions().count(10).build())){
+			while(cursor.hasNext()){
+				Map.Entry<Object, Object> entry = cursor.next();
+				log.info(entry.getKey()+":"+entry.getValue());
+			}
+		}
+
+		stringRedisTemplate.opsForList().rightPushAll("rank","kim","tom","gates","jack","clinton");
+		stringRedisTemplate.opsForList().leftPush("rank","gates","lily");
+		List<String> rank = stringRedisTemplate.opsForList().range("rank",0,stringRedisTemplate.opsForList().size("rank"));
+		//stringRedisTemplate.opsForList().move(ListOperations.MoveFrom.fromHead("rank"), ListOperations.MoveTo.toHead("rank"));
+		//stringRedisTemplate.opsForList().move(ListOperations.MoveFrom.fromHead("rank"), ListOperations.MoveTo.toHead("rank_bak"));
+		List<String> rank_bak = stringRedisTemplate.opsForList().range("rank_bak",0,stringRedisTemplate.opsForList().size("rank_bak"));
+		log.info("stringRedisTemplate.opsForList().range rank: {}",rank);
+		log.info("stringRedisTemplate.opsForList().range rank_bak: {}",rank_bak);
+
+		Person person = new Person();
+		person.setFirstname("allan");
+		person.setLastname("kim");
+		person.setAge(30);
+		Person.Address address = new Person.Address("hangzhou", "shu guang road");
+		person.setAddress(address);
+		personRepository.save(person);
+
+		person.setFirstname("jack");
+		person.setLastname("ma");
+		address = new Person.Address("hangzhou", "alibaba");
+		person.setAddress(address);
+		person.setAge(50);
+		person.setId(null);
+		personRepository.save(person);
+
+		Optional<Person> personFromRedis = personRepository.findById(person.getId());
+		log.info("[Use redis repository ] personRepository.findById:{}",personFromRedis.orElseGet(()->new Person()));
+		log.info("personRepository instanceof KeyValueRepository：{}",personRepository instanceof KeyValueRepository);
+		Iterable<Person>  personsWithoutSort = personRepository.findAll();
+		log.info("personRepository.findAll :{} ",objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(personsWithoutSort));
+		Iterable<Person>  persons = personRepository.findAll(Sort.by(Sort.Direction.ASC,"age"));
+		log.info("personRepository.findAll sort by age asc :{} ",objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(persons));
+		log.info("personRepository.findAll sort by age desc :{} ",objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(personRepository.findAll(Sort.by(Sort.Direction.DESC,"age"))));
+
+
 /*
 探索interceptor chain构造与使用：
 		AnotherInterceptor test = new AnotherInterceptor();
@@ -139,5 +192,14 @@ public class LearnSpringbootDataApplication implements ApplicationRunner {
 		boolean updateFlag2 = cr.update("XF00003","modify-12345");
 		log.info("[Use jdbc repository] update customer :{} ",updateFlag2);*/
 
+	}
+
+	private void clearRedis(){
+		log.info("clearRedis start............");
+		Set<String> keys = stringRedisTemplate.keys("person*");
+		keys.addAll(List.of("rank","rank_bak","myself"));
+		long count = stringRedisTemplate.delete(keys);
+		log.info("stringRedisTemplate.delete keys count :{}",count);
+		log.info("clearRedis end..............");
 	}
 }

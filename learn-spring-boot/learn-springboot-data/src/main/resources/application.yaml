@@ -25,6 +25,11 @@ spring:
     password: 12345
     port: 6379
     host: 192.168.33.10
+    lettuce:
+      pool:
+        enabled: true
+        max-wait: 1s
+
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
