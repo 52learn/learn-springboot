@@ -23,6 +23,10 @@ public class RepositoryAutoConfiguration {
     CustomerDaoWithJdbcTemplate customerDaoWithJdbcTemplate(JdbcTemplate jdbcTemplate){
         return new CustomerDaoWithJdbcTemplate(jdbcTemplate);
     }
+    @Bean
+    MySqlOperationExample mySqlOperationExample(){
+        return new MySqlOperationExample();
+    }
 
     @Configuration
     @EnableJdbcRepositories
