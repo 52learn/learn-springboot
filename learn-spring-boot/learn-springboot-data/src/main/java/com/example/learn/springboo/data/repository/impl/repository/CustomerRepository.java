@@ -4,11 +4,12 @@ import com.example.learn.springboo.data.repository.entity.Customer;
 import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface CustomerRepository extends CrudRepository<Customer,String> {
+public interface CustomerRepository extends PagingAndSortingRepository<Customer,String> {
 
     List<Customer> findByIsMember(Integer member);
 

@@ -21,8 +21,12 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.keyvalue.repository.KeyValueRepository;
+import org.springframework.data.redis.connection.SortParameters;
 import org.springframework.data.redis.core.*;
 
 import java.time.LocalDateTime;
@@ -87,7 +91,7 @@ public class LearnSpringbootDataApplication implements ApplicationRunner {
 		Customer customer = myRepository.query("XF00003");
 		log.info("[Use jdbcTemplate ]query customer {customerCode=XF00003}  ,customer :{} ",customer);
 
-		Customer insertCustomer = new Customer("XF00004", "娃哈哈集团", "0571-123456", 1, LocalDateTime.now());
+		Customer insertCustomer = new Customer("XF00004", "娃哈哈集团", "0571-123456", 1, LocalDateTime.now().plusHours(2));
 		insertCustomer.setInsert(true);
 		customerRepository.save(insertCustomer);
 
@@ -105,6 +109,12 @@ public class LearnSpringbootDataApplication implements ApplicationRunner {
 		customer = customerRepository.save(customer);
 		log.info("[Use jdbc repository] save customer return : {} ",customer);
 
+		Page<Customer> page = customerRepository.findAll(PageRequest.of(0,3,Sort.by(Sort.Order.asc("createTime"))));
+		log.info("[Use jdbc repository] customerRepository.findAll page 0,size:2 : {} ",objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(page));
+
+		Iterable<Customer> customerIterable = customerRepository.findAll(Sort.by(Sort.Order.asc("createTime")));
+		log.info("[Use jdbc repository] customerRepository.findAll : {} ",objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(customerIterable));
+
 		int updateFlag = customerMapper.update("modify-666","XF00003");
 		log.info("[Use mybatis ] update customer : {} ",updateFlag);
 		CustomerForMybatis customerQueryByMybatis = customerMapper.findByCustomerCode("XF00003");
@@ -114,7 +124,7 @@ public class LearnSpringbootDataApplication implements ApplicationRunner {
 		log.info("[Use mybatis ] queryAll customer : {} ",customerForMybatisList);
 
 		CustomerForMybatis customerForMybatisForInsert = new CustomerForMybatis();
-		customerForMybatisForInsert.setCreateTime(LocalDateTime.now());
+		customerForMybatisForInsert.setCreateTime(LocalDateTime.now().plusHours(1));
 		customerForMybatisForInsert.setCustomerCode("XF00005");
 		customerForMybatisForInsert.setCustomerName("腾讯科技");
 		customerForMybatisForInsert.setCustomerPhone("0772-32312222");
@@ -172,6 +182,14 @@ public class LearnSpringbootDataApplication implements ApplicationRunner {
 		person.setId(null);
 		personRepository.save(person);
 
+		person.setFirstname("bill");
+		person.setLastname("gates");
+		address = new Person.Address("new york", "曼哈登");
+		person.setAddress(address);
+		person.setAge(40);
+		person.setId(null);
+		personRepository.save(person);
+
 		Optional<Person> personFromRedis = personRepository.findById(person.getId());
 		log.info("[Use redis repository ] personRepository.findById:{}",personFromRedis.orElseGet(()->new Person()));
 		log.info("personRepository instanceof KeyValueRepository：{}",personRepository instanceof KeyValueRepository);
@@ -180,6 +198,9 @@ public class LearnSpringbootDataApplication implements ApplicationRunner {
 		Iterable<Person>  persons = personRepository.findAll(Sort.by(Sort.Direction.ASC,"age"));
 		log.info("personRepository.findAll sort by age asc :{} ",objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(persons));
 		log.info("personRepository.findAll sort by age desc :{} ",objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(personRepository.findAll(Sort.by(Sort.Direction.DESC,"age"))));
+		Pageable pageable = PageRequest.of(0,2,Sort.by(Sort.Direction.DESC,"age"));
+		Page<Person> personPage = personRepository.findAll(pageable);
+		log.info("personRepository.findAll by pageable [page=0,size=2]:{}",objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(personPage));
 
 
 /*
