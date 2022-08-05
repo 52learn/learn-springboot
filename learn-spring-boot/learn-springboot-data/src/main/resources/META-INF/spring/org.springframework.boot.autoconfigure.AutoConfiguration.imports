@@ -1,2 +1,3 @@
 com.example.learn.springboo.data.repository.RepositoryAutoConfiguration
 com.example.learn.springboo.data.nosql.redis.MyRedisAutoConfiguration
+com.example.learn.springboo.data.cache.MyCacheAutoConfiguration
