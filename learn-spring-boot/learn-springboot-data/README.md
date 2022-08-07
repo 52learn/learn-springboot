@@ -342,7 +342,10 @@ private static final boolean COMMONS_POOL2_AVAILABLE = ClassUtils.isPresent("org
     - org.springframework.data.repository.core.support.RepositoryFactorySupport#getRepositoryMetadata
     - org.springframework.data.repository.core.support.RepositoryFactorySupport#getRepository(java.lang.Class<T>, org.springframework.data.repository.core.support.RepositoryComposition.RepositoryFragments)
 
-
+##
+- org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration
+- org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration.CacheConfigurationImportSelector
+    - org.springframework.boot.autoconfigure.cache.CacheConfigurations#MAPPINGS
 
 
 
