@@ -1,11 +1,17 @@
 package com.example.learn.springboo.data.nosql.redis.repository;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
-@RedisHash("person")
+@RedisHash(value = "person",timeToLive = 60)
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Person {
 
   @Id
@@ -15,17 +21,12 @@ public class Person {
   Address address;
   Integer age;
 
-  public Person() {
-  }
-
   @Data
+  @NoArgsConstructor
+  @AllArgsConstructor
+  @Builder
   public static class Address{
     private String city;
     private String street;
-
-    public Address(String city, String street) {
-      this.city = city;
-      this.street = street;
-    }
   }
 }

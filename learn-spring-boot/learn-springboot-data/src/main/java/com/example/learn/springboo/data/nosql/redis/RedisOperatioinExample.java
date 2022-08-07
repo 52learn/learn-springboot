@@ -63,12 +63,16 @@ public class RedisOperatioinExample {
         log.info("stringRedisTemplate.opsForList().range rank: {}",rank);
         log.info("stringRedisTemplate.opsForList().range rank_bak: {}",rank_bak);
 
-        Person person = new Person();
-        person.setFirstname("allan");
-        person.setLastname("kim");
-        person.setAge(30);
-        Person.Address address = new Person.Address("hangzhou", "shu guang road");
-        person.setAddress(address);
+        Person.Address address =Person.Address.builder()
+                .city("hangzhou")
+                .street("nanyang road")
+                .build();
+        Person person = Person.builder()
+                .firstname("allan")
+                .lastname("kim")
+                .age(30)
+                .address(address)
+                .build();
         personRepository.save(person);
 
         person.setFirstname("jack");
@@ -76,14 +80,6 @@ public class RedisOperatioinExample {
         address = new Person.Address("hangzhou", "alibaba");
         person.setAddress(address);
         person.setAge(50);
-        person.setId(null);
-        personRepository.save(person);
-
-        person.setFirstname("bill");
-        person.setLastname("gates");
-        address = new Person.Address("new york", "曼哈登");
-        person.setAddress(address);
-        person.setAge(40);
         person.setId(null);
         personRepository.save(person);
 
