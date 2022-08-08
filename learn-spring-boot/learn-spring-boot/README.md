@@ -272,6 +272,12 @@ person.age=18'
 reference:  
 https://www.baeldung.com/spring-yaml-propertysource
 
+
+## Use ObjectProvider
+
+reference:  
+Using Spring's ObjectProvider : http://rahulsh1.github.io/tech/2018/12/20/Using-Spring-ObjectProvider 
+
 ## Learn Knowledge
 
 ### 获取类名中泛型类型

@@ -9,11 +9,13 @@ import com.example.learn.springboot.extension.po.Runner;
 import com.example.learn.springboot.i18n.I18nMessagePrinter;
 import com.example.learn.springboot.importest.OrderService;
 import com.example.learn.springboot.json.Car;
+import com.example.learn.springboot.objectprovider.LoggerManager;
 import com.example.learn.springboot.properties.CustomerProperties;
 import com.example.learn.springboot.sms.SmsProvider;
 import com.example.learn.springboot.storage.Storage;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -117,6 +119,10 @@ public class LearnSpringBootApplication implements CommandLineRunner {
 	@Value("${property.source.brand:}")
 	private String propertySourceBrand;
 
+	@Autowired
+	ObjectProvider<LoggerManager> loggerManager;
+	//LoggerManager loggerManager;
+
 	@Override
 	public void run(String... args) throws Exception {
 		log.debug("debug info -----");
@@ -169,6 +175,8 @@ public class LearnSpringBootApplication implements CommandLineRunner {
 
 		log.info("load variable via @PropertySource(value = \"classpath:propertysource.yaml\",factory = YamlPropertySourceFactory.class) , propertySourceBrand:{}", propertySourceBrand);
 
+		loggerManager.getIfAvailable().log(" ObjectProvider Usage...");
+		//loggerManager.log("xxx");
 	}
 
 
