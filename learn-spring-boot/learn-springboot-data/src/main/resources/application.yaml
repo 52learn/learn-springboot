@@ -29,6 +29,13 @@ spring:
       pool:
         enabled: true
         max-wait: 1s
+  cache:
+    type: redis
+    redis:
+      key-prefix: redisCache-
+      enable-statistics: true
+      time-to-live: 10s
+      use-key-prefix: true
 
 mybatis:
   configuration:

@@ -71,6 +71,30 @@ MapperFactoryBean<MallOrderMapper> mallOrderMapperFactoryBean(SqlSessionFactory 
 - com.example.learn.springboo.data.nosql.redis.MyRedisAutoConfiguration
 - com.example.learn.springboo.data.nosql.redis.repository.PersonRepository
 
+
+## Use Generic Cache 
+- annotation cacheable method 
+```
+@Cacheable(value = "calculateResult")
+public int calculate(int num){
+...
+}
+```
+
+- configure application.yaml
+```
+spring.cache.type=generic
+```
+
+- create Cache Bean in Spring Context(eg: ConcurrentMapCache)
+```
+@Bean
+public ConcurrentMapCache concurrentMapCache(){
+    ConcurrentMapCache cache = new ConcurrentMapCache("calculateResult");
+    return cache;
+}
+```
+
 # Learn knowledge
 ## How to Instance HikariDataSource Bean
 org.springframework.boot.jdbc.EmbeddedDatabaseConnection
@@ -341,6 +365,12 @@ private static final boolean COMMONS_POOL2_AVAILABLE = ClassUtils.isPresent("org
     - org.springframework.data.keyvalue.repository.support.KeyValueRepositoryFactoryBean#createRepositoryFactory()
     - org.springframework.data.repository.core.support.RepositoryFactorySupport#getRepositoryMetadata
     - org.springframework.data.repository.core.support.RepositoryFactorySupport#getRepository(java.lang.Class<T>, org.springframework.data.repository.core.support.RepositoryComposition.RepositoryFragments)
+
+## Usage Enum order decide the precedence
+- org.springframework.boot.autoconfigure.cache.CacheType
+- org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration.CacheConfigurationImportSelector#selectImports
+## Use InitializingBean's afterPropertiesSet to validate 
+- org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration.CacheManagerValidator
 
 ##
 - org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration
