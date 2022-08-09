@@ -7,9 +7,9 @@ import org.aopalliance.intercept.MethodInvocation;
 public class TracingInterceptor implements MethodInterceptor {
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
-        log.info("method "+invocation.getMethod()+" is called on "+invocation.getThis()+" with args "+invocation.getArguments());
+        log.info("args :{}",invocation.getArguments());
         Object ret=invocation.proceed();
-        log.info("method "+invocation.getMethod()+" returns "+ret);
+        log.info("returns :{}",ret);
         return ret;
     }
 }
