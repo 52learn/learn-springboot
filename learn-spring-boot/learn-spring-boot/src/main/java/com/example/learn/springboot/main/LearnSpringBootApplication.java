@@ -174,8 +174,9 @@ public class LearnSpringBootApplication implements CommandLineRunner {
 		log.info("load variable via @PropertySource(value = \"classpath:propertysource.properties\") , propertySourceUsername:{}", propertySourceUsername);
 
 		log.info("load variable via @PropertySource(value = \"classpath:propertysource.yaml\",factory = YamlPropertySourceFactory.class) , propertySourceBrand:{}", propertySourceBrand);
-
-		loggerManager.getIfAvailable().log(" ObjectProvider Usage...");
+		loggerManager.ifAvailable(lm->{
+			lm.log(" ObjectProvider Usage...");
+		});
 		//loggerManager.log("xxx");
 	}
 

@@ -11,4 +11,13 @@ public class ObjectProviderAutoConfiguration {
     LoggerManager loggerManager(ObjectProvider<LogService> logServices){
        return new LoggerManager(logServices);
     }
+
+    @Bean
+    LogService jsonLogger(){
+        return new JsonLogger();
+    }
+    @Bean
+    LogService plainLogger(){
+        return new PlainLogger();
+    }
 }

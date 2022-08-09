@@ -12,7 +12,9 @@ public class LoggerManager implements LogService{
     @Override
     public void log(String data) {
         logServices.orderedStream().forEach((logService)->{
-            logService.log(data);
+            if(!(logService instanceof LoggerManager)){
+                logService.log(data);
+            }
         });
     }
 }
