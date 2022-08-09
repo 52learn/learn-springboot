@@ -377,6 +377,14 @@ private static final boolean COMMONS_POOL2_AVAILABLE = ClassUtils.isPresent("org
 - org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration.CacheConfigurationImportSelector
     - org.springframework.boot.autoconfigure.cache.CacheConfigurations#MAPPINGS
 
+## TaskSchedulingAutoConfiguration
+- org.springframework.boot.autoconfigure.task.TaskSchedulingAutoConfiguration
+
+
+##
+- org.springframework.scheduling.annotation.EnableScheduling
+- org.springframework.scheduling.annotation.SchedulingConfiguration
+    - org.springframework.scheduling.annotation.ScheduledAnnotationBeanPostProcessor#postProcessAfterInitialization
 
 
 

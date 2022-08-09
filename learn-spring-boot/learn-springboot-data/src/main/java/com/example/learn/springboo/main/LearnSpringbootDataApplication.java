@@ -1,4 +1,4 @@
-package com.example.learn.springboo.data.main;
+package com.example.learn.springboo.main;
 
 import com.example.learn.springboo.data.HoldProcessor;
 import com.example.learn.springboo.data.cache.CacheExample;
