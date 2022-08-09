@@ -8,6 +8,7 @@ import com.example.learn.springboot.extension.po.Programmer;
 import com.example.learn.springboot.extension.po.Runner;
 import com.example.learn.springboot.i18n.I18nMessagePrinter;
 import com.example.learn.springboot.importest.OrderService;
+import com.example.learn.springboot.interceptor.ShoppingCartService;
 import com.example.learn.springboot.json.Car;
 import com.example.learn.springboot.objectprovider.LoggerManager;
 import com.example.learn.springboot.properties.CustomerProperties;
@@ -15,6 +16,8 @@ import com.example.learn.springboot.sms.SmsProvider;
 import com.example.learn.springboot.storage.Storage;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.aop.framework.AopProxyUtils;
+import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -123,6 +126,9 @@ public class LearnSpringBootApplication implements CommandLineRunner {
 	ObjectProvider<LoggerManager> loggerManager;
 	//LoggerManager loggerManager;
 
+	@Autowired
+	ShoppingCartService shoppingCartService;
+
 	@Override
 	public void run(String... args) throws Exception {
 		log.debug("debug info -----");
@@ -177,7 +183,21 @@ public class LearnSpringBootApplication implements CommandLineRunner {
 		loggerManager.ifAvailable(lm->{
 			lm.log(" ObjectProvider Usage...");
 		});
+		Class orderServiceClazz = orderService.getClass();
+
+		log.info("orderService getCanonicalName:{},getSimpleName:{},getTypeName:{},getName:{}",
+			orderServiceClazz.getCanonicalName(),
+			orderServiceClazz.getSimpleName(),
+			orderServiceClazz.getTypeName(),
+			orderServiceClazz.getName()
+			);
+		Class<?> orderServiceTargetClass = AopUtils.getTargetClass(orderService);
+		log.info("orderService  [AopUtils.getTargetClass]  getCanonicalName:{}",orderServiceTargetClass.getCanonicalName());
+		Class<?> clazz = AopProxyUtils.ultimateTargetClass(orderService);
+		log.info("orderService  [AopProxyUtils.ultimateTargetClass]  getCanonicalName:{}",clazz.getCanonicalName());
+
 		//loggerManager.log("xxx");
+		shoppingCartService.totalMoney();
 	}
 
 

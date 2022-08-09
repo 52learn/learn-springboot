@@ -278,7 +278,11 @@ https://www.baeldung.com/spring-yaml-propertysource
 reference:  
 Using Spring's ObjectProvider : http://rahulsh1.github.io/tech/2018/12/20/Using-Spring-ObjectProvider 
 
-## Learn Knowledge
+## Access the concrete class from a spring proxy
+
+https://solidsyntax.be/2013/12/10/access-concrete-class-spring-proxy/
+
+# Learn Knowledge
 
 ### 获取类名中泛型类型
 org.springframework.boot.diagnostics.AbstractFailureAnalyzer#getCauseType
