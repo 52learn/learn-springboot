@@ -1,7 +1,6 @@
-package com.example.learn.springboot.interceptor;
+package com.example.learn.springboot.aop;
 
 import com.example.learn.springboot.web.WebController;
-import org.aspectj.lang.annotation.Aspect;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.interceptor.CustomizableTraceInterceptor;
@@ -15,7 +14,6 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 @EnableAspectJAutoProxy
 @AutoConfiguration
-@Aspect
 public class MyInterceptorAutoConfiguration {
     @Bean
     ShoppingCartService shoppingCartService(){
@@ -49,7 +47,7 @@ public class MyInterceptorAutoConfiguration {
     @Bean
     Advisor shoppingCartServiceAdvisor(TracingInterceptor tracingInterceptor){
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
-        pointcut.setExpression("execution(public * com.example.learn.springboot.interceptor.ShoppingCartService.*(..))");
+        pointcut.setExpression("execution(public * com.example.learn.springboot.aop.ShoppingCartService.*(..))");
         return new DefaultPointcutAdvisor(pointcut, tracingInterceptor);
     }
     @Bean
@@ -60,4 +58,10 @@ public class MyInterceptorAutoConfiguration {
         pointcut.setExpression("execution(* com.example.learn.springboot.web.WebController.getPerson(..))");
         return new DefaultPointcutAdvisor(pointcut, tracingInterceptor());
     }
+
+    @Bean
+    LoggingAspect loggingAspect(){
+        return new LoggingAspect();
+    }
+
 }

@@ -4,4 +4,4 @@ com.example.learn.springboot.conversion.convert.MyConvertAutoConfiguration
 com.example.learn.springboot.web.MyWebMvcAutoconfiguration
 com.example.learn.springboot.properties.PropertySourceUsageAutoConfiguration
 com.example.learn.springboot.objectprovider.ObjectProviderAutoConfiguration
-com.example.learn.springboot.interceptor.MyInterceptorAutoConfiguration
+com.example.learn.springboot.aop.MyInterceptorAutoConfiguration

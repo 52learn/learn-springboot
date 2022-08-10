@@ -1,4 +1,4 @@
-package com.example.learn.springboot.interceptor;
+package com.example.learn.springboot.aop;
 
 import lombok.extern.slf4j.Slf4j;
 
