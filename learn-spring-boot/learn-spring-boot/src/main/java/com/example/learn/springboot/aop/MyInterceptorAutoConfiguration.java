@@ -33,28 +33,17 @@ public class MyInterceptorAutoConfiguration {
         return customizableTraceInterceptor;
     }
 
-    //@Bean
-    Advisor controllerAdvisor(CustomizableTraceInterceptor customizableTraceInterceptor){
-        //AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
-        //pointcut.setExpression("execution(public * com.example.learn.springboot.web.WebController.*(..))");
-        NameMatchMethodPointcut pointcut = new NameMatchMethodPointcut();
-        Method[] methods = WebController.class.getMethods();
-        Arrays.stream(methods).forEach(method -> {
-            pointcut.addMethodName(method.getName());
-        });
-        return new DefaultPointcutAdvisor(pointcut,customizableTraceInterceptor);
-    }
+
     @Bean
     Advisor shoppingCartServiceAdvisor(TracingInterceptor tracingInterceptor){
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
         pointcut.setExpression("execution(public * com.example.learn.springboot.aop.ShoppingCartService.*(..))");
         return new DefaultPointcutAdvisor(pointcut, tracingInterceptor);
     }
+
     @Bean
-    public Advisor controllerAdvisor() {
+    Advisor controllerAdvisor() {
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
-        //pointcut.setExpression("execution(public * com.example.learn.springboot.web.WebController+.*(..))");
-        //pointcut.setExpression("execution(public * (@org.springframework.web.bind.annotation.GetMapping com.example.learn.springboot.web.WebController..*).*(..))");
         pointcut.setExpression("execution(* com.example.learn.springboot.web.WebController.getPerson(..))");
         return new DefaultPointcutAdvisor(pointcut, tracingInterceptor());
     }

@@ -279,8 +279,25 @@ reference:
 Using Spring's ObjectProvider : http://rahulsh1.github.io/tech/2018/12/20/Using-Spring-ObjectProvider 
 
 ## Access the concrete class from a spring proxy
-
 https://solidsyntax.be/2013/12/10/access-concrete-class-spring-proxy/
+
+## AOP Usage
+- By using @Aspect
+    - com.example.learn.springboot.aop.LoggingAspect
+     
+    - com.example.learn.springboot.aop.MyInterceptorAutoConfiguration#loggingAspect
+
+Advisor = Advice + Pointcut 
+    
+- By using implementing MethodInterceptor interface
+    - com.example.learn.springboot.aop.TracingInterceptor
+    - com.example.learn.springboot.aop.MyInterceptorAutoConfiguration.controllerAdvisor
+    1. define pointcut expression  
+    2. create Advisor @Bean
+    
+Advisor = Interceptor + Pointcut
+Advice: @Before,@After,Around
+
 
 # Learn Knowledge
 
