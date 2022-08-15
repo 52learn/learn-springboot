@@ -1,5 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.example.learn.springboot.autoconfigure.SmsProviderAutoConfiguration,\
+com.example.learn.springboot.sms.autoconfigure.SmsProviderAutoConfiguration,\
 com.example.learn.springboot.profile.autoconfigure.DevAutoConfiguration,\
 com.example.learn.springboot.profile.autoconfigure.UatAutoConfiguration,\
 com.example.learn.springboot.bean.processor.autoconfigure.BeanPostProcessorAutoConfiguration,\

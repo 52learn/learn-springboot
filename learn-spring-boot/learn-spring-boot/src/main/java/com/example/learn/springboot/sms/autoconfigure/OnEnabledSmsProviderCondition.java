@@ -1,5 +1,6 @@
-package com.example.learn.springboot.autoconfigure;
+package com.example.learn.springboot.sms.autoconfigure;
 
+import com.example.learn.springboot.sms.autoconfigure.ConditionalOnEnabledSmsProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionMessage;
 import org.springframework.boot.autoconfigure.condition.ConditionOutcome;
 import org.springframework.boot.autoconfigure.condition.SpringBootCondition;
@@ -16,7 +17,7 @@ class OnEnabledSmsProviderCondition extends SpringBootCondition {
     private final Class<? extends Annotation> annotationType;
 
     OnEnabledSmsProviderCondition(){
-        this("sms.",ConditionalOnEnabledSmsProvider.class);
+        this("sms.", ConditionalOnEnabledSmsProvider.class);
     }
     protected OnEnabledSmsProviderCondition(String prefix, Class<? extends Annotation> annotationType) {
         this.prefix = prefix;

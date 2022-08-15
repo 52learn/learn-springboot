@@ -1,4 +1,4 @@
-package com.example.learn.springboot.autoconfigure;
+package com.example.learn.springboot.sms.autoconfigure;
 
 import com.example.learn.springboot.sms.AliyunSmsProvider;
 import com.example.learn.springboot.sms.SmsProvider;

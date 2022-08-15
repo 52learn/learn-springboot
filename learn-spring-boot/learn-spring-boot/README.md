@@ -1,13 +1,13 @@
 # Feature List
 ## Customize Conditional 
 1. Define OnEnabledXXXCondition class
-com.example.learn.springboot.autoconfigure.OnEnabledSmsProviderCondition
+com.example.learn.springboot.sms.autoconfigure.OnEnabledSmsProviderCondition
 
 2. Define ConditionalOnEnabledXXX class
-com.example.learn.springboot.autoconfigure.ConditionalOnEnabledSmsProvider
+com.example.learn.springboot.sms.autoconfigure.ConditionalOnEnabledSmsProvider
 
 3. Define XXXAutoConfiguration class
-com.example.learn.springboot.autoconfigure.SmsProviderAutoConfiguration
+com.example.learn.springboot.sms.autoconfigure.SmsProviderAutoConfiguration
 
 4. Config spring.factories
 
