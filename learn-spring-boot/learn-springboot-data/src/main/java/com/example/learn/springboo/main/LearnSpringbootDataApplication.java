@@ -44,7 +44,7 @@ public class LearnSpringbootDataApplication implements ApplicationRunner {
 	public void run(ApplicationArguments args) throws Exception {
 		//mySqlOperationExample.apiInvoke();
 		//redisOperatioinExample.apiInvoke();
-		cacheExample.invoke();
+		//cacheExample.invoke();
 
 	}
 
