@@ -1,6 +1,10 @@
 
 
 spring:
+  quartz:
+    jdbc:
+      initialize-schema: always
+    job-store-type: jdbc
   datasource:
     url: jdbc:h2:file:~/learn-springboot-data-h2-db
     username: sa

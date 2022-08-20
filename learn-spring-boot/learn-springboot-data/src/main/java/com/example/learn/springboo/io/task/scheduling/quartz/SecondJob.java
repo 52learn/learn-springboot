@@ -9,9 +9,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Slf4j
-public class HelloWorldJob implements Job {
+public class SecondJob implements Job {
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
-        log.info("Spring_Quartz HelloWorldJob!"+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) );
+        log.info("Spring_Quartz SecondJob!"+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) );
     }
 }
